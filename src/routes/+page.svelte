@@ -1,11 +1,19 @@
 <script>
+	let css = {
+		input_group: 'input-group btn-group h-12 w-fit m-1 ml-5',
+		input_text: 'w-64',
+		slider_range: 'w-48 range m-auto',
+		slider_input: 'w-16',
+		boolean_button: 'btn w-32'
+	};
+
 	let year = 1;
 	let chronic_lung_disease = 0;
 	let chronic_heart_failure = 0;
 	let coronary_artery_disease = 0;
-	let pe_ecls_ltx = 0;
+	let lung_transplant = 0;
 	let vasopressors_inotropes = 1;
-	let pre_ecmo_ct_surg = 0;
+	let cardiothoracic_surgery = 0;
 	let ph = 7.27;
 	let bicarbonate_infusion = 0;
 	let pco2 = 47;
@@ -18,15 +26,15 @@
 	let fio2 = 100;
 	let po2 = 150;
 	let sbp = 77;
-	let intubation_time = 0;
+	let intubation_time = 1;
 	let age_years = 0;
 	let lactate = 7.2;
 	let pulmonary_embolism = 0;
 
-	let result = null;
+	let result = '';
 
-	async function doPost() {
-		const res = await fetch('http://localhost:5000', {
+	async function submitParams() {
+		const res = await fetch('http://127.0.0.1:5000', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
 			body: JSON.stringify([
@@ -34,9 +42,9 @@
 				chronic_lung_disease,
 				chronic_heart_failure,
 				coronary_artery_disease,
-				pe_ecls_ltx,
+				lung_transplant,
 				vasopressors_inotropes,
-				pre_ecmo_ct_surg,
+				cardiothoracic_surgery,
 				ph,
 				bicarbonate_infusion,
 				pco2,
@@ -55,197 +63,166 @@
 				pulmonary_embolism
 			])
 		});
-		console.log(res);
-		// const json = await res.json();
-		// result = JSON.stringify(json);
-		// console.log(year, chronic_lung_disease, chronic_heart_failure, coronary_artery_disease, pe_ecls_ltx, vasopressors_inotropes, pre_ecmo_ct_surg, ph, bicarbonate_infusion, pco2, hco3, acute_kidney_injury, renal_replacement_therapy, cardiac_arrest, bmi, ratebreathssec, fio2, po2, sbp, intubation_time, age_years, lactate, pulmonary_embolism)
-		// console.log(result);
+		const json = await res.json();
+		result = JSON.stringify(json);
 	}
 </script>
 
-<label class="input-group btn-group">
-	<span class="w-64">Chronic Lung Disease</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Chronic Lung Disease</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="chronic_lung_disease"
 		data-title="Yes"
-		on:change={() => {
-			chronic_lung_disease = 1;
-		}}
+		on:change={() => (chronic_lung_disease = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="chronic_lung_disease"
 		data-title="No"
-		on:change={() => {
-			chronic_lung_disease = 0;
-		}}
+		on:change={() => (chronic_lung_disease = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Chronic Heart Failure</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Chronic Heart Failure</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="chronic_heart_failure"
 		data-title="Yes"
-		on:change={() => {
-			chronic_heart_failure = 1;
-		}}
+		on:change={() => (chronic_heart_failure = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="chronic_heart_failure"
 		data-title="No"
-		on:change={() => {
-			chronic_heart_failure = 0;
-		}}
+		on:change={() => (chronic_heart_failure = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Coronary Artery Disease</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Coronary Artery Disease</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="coronary_artery_disease"
 		data-title="Yes"
-		on:change={() => {
-			coronary_artery_disease = 1;
-		}}
+		on:change={() => (coronary_artery_disease = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="coronary_artery_disease"
 		data-title="No"
-		on:change={() => {
-			coronary_artery_disease = 0;
-		}}
+		on:change={() => (coronary_artery_disease = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Pre-ECMO Lung Transplant</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Lung Transplant</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
-		name="pe_ecls_ltx"
+		name="lung_transplant"
 		data-title="Yes"
-		on:change={() => {
-			pe_ecls_ltx = 1;
-		}}
+		on:change={() => (lung_transplant = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
-		name="pe_ecls_ltx"
+		name="lung_transplant"
 		data-title="No"
-		on:change={() => {
-			pe_ecls_ltx = 0;
-		}}
+		on:change={() => (lung_transplant = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Vasopressors/Inotropes</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Vasopressors/Inotropes</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="vasopressors_inotropes"
 		data-title="Yes"
-		on:change={() => {
-			vasopressors_inotropes = 1;
-		}}
+		on:change={() => (vasopressors_inotropes = 1)}
 		checked
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="vasopressors_inotropes"
 		data-title="No"
-		on:change={() => {
-			vasopressors_inotropes = 0;
-		}}
+		on:change={() => (vasopressors_inotropes = 0)}
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Pre-ECMO Cardiothoracic Surgery</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Cardiothoracic Surgery</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
-		name="pre_ecmo_ct_surg"
+		name="cardiothoracic_surgery"
 		data-title="Yes"
-		on:change={() => {
-			pre_ecmo_ct_surg = 1;
-		}}
+		on:change={() => (cardiothoracic_surgery = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
-		name="pre_ecmo_ct_surg"
+		name="cardiothoracic_surgery"
 		data-title="No"
-		on:change={() => {
-			pre_ecmo_ct_surg = 0;
-		}}
+		on:change={() => (cardiothoracic_surgery = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">pH</span>
-	<input class="w-16" type="number" bind:value={ph} />
-	<input class="w-64 range" type="range" min="6" max="8" bind:value={ph} />
+<label class={css.input_group}>
+	<span class={css.input_text}>pH</span>
+	<input class={css.slider_input} type="number" bind:value={ph} />
+	<input class={css.slider_range} type="range" min="6" max="8" step="0.1" bind:value={ph} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Pre-ECMO Bicarbonate Infusion</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Bicarbonate Infusion</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="bicarbonate_infusion"
 		data-title="Yes"
-		on:change={() => {
-			bicarbonate_infusion = 1;
-		}}
+		on:change={() => (bicarbonate_infusion = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="bicarbonate_infusion"
 		data-title="No"
-		on:change={() => {
-			bicarbonate_infusion = 0;
-		}}
+		on:change={() => (bicarbonate_infusion = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">PCO2 (mmHg)</span>
-	<input class="w-16" type="number" bind:value={pco2} />
-	<input class="w-64 range" type="range" min="15" max="200" bind:value={pco2} />
+<label class={css.input_group}>
+	<span class={css.input_text}>PCO2 (mmHg)</span>
+	<input class={css.slider_input} type="number" bind:value={pco2} />
+	<input class={css.slider_range} type="range" min="15" max="200" step="5" bind:value={pco2} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">HCO3 (mmol/L)</span>
-	<input class="w-16" type="number" bind:value={hco3} />
-	<input class="w-64 range" type="range" min="1" max="40" bind:value={hco3} />
+<label class={css.input_group}>
+	<span class={css.input_text}>HCO3 (mmol/L)</span>
+	<input class={css.slider_input} type="number" bind:value={hco3} />
+	<input class={css.slider_range} type="range" min="1" max="40" step="1" bind:value={hco3} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Acute Kidney Injury</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Acute Kidney Injury</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="acute_kidney_injury"
 		data-title="Yes"
@@ -254,7 +231,7 @@
 		}}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="acute_kidney_injury"
 		data-title="No"
@@ -265,121 +242,113 @@
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Renal Replacement Therapy</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Renal Replacement Therapy</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="renal_replacement_therapy"
 		data-title="Yes"
-		on:change={() => {
-			renal_replacement_therapy = 1;
-		}}
+		on:change={() => (renal_replacement_therapy = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="renal_replacement_therapy"
 		data-title="No"
-		on:change={() => {
-			renal_replacement_therapy = 0;
-		}}
+		on:change={() => (renal_replacement_therapy = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Pre-ECMO Cardiac Arrest</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Cardiac Arrest</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="arrest_ordinal"
 		data-title="Yes"
-		on:change={() => {
-			cardiac_arrest = 1;
-		}}
+		on:change={() => (cardiac_arrest = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="arrest_ordinal"
 		data-title="No"
-		on:change={() => {
-			cardiac_arrest = 0;
-		}}
+		on:change={() => (cardiac_arrest = 0)}
 		checked
 	/>
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">BMI (kg/cm2)</span>
-	<input class="w-16" type="number" bind:value={bmi} />
-	<input class="w-64 range" type="range" min="10" max="85" bind:value={bmi} />
+<label class={css.input_group}>
+	<span class={css.input_text}>BMI (kg/cm2)</span>
+	<input class={css.slider_input} type="number" bind:value={bmi} />
+	<input class={css.slider_range} type="range" min="10" max="85" bind:value={bmi} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Breathing Rate (/min)</span>
-	<input class="w-16" type="number" bind:value={ratebreathssec} />
-	<input class="w-64 range" type="range" min="0" max="60" bind:value={ratebreathssec} />
+<label class={css.input_group}>
+	<span class={css.input_text}>Breathing Rate (/min)</span>
+	<input class={css.slider_input} type="number" bind:value={ratebreathssec} />
+	<input class={css.slider_range} type="range" min="0" max="60" step="2" bind:value={ratebreathssec} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">FiO2 (%)</span>
-	<input class="w-16" type="number" bind:value={fio2} />
-	<input class="w-64 range" type="range" min="0" max="100" bind:value={fio2} />
+<label class={css.input_group}>
+	<span class={css.input_text}>FiO2 (%)</span>
+	<input class={css.slider_input} type="number" bind:value={fio2} />
+	<input class={css.slider_range} type="range" min="0" max="100" step="5" bind:value={fio2} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">PaO2 (mmHg)</span>
-	<input class="w-16" type="number" bind:value={po2} />
-	<input class="w-64 range" type="range" min="0" max="600" bind:value={po2} />
+<label class={css.input_group}>
+	<span class={css.input_text}>PaO2 (mmHg)</span>
+	<input class={css.slider_input} type="number" bind:value={po2} />
+	<input class={css.slider_range} type="range" min="0" max="600" step="5" bind:value={po2} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Systolic Blood Pressure (mmHg)</span>
-	<input class="w-16" type="number" bind:value={sbp} />
-	<input class="w-64 range" type="range" min="0" max="300" bind:value={sbp} />
+<label class={css.input_group}>
+	<span class={css.input_text}>Systolic Blood Pressure (mmHg)</span>
+	<input class={css.slider_input} type="number" bind:value={sbp} />
+	<input class={css.slider_range} type="range" min="0" max="300" step="10" bind:value={sbp} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Pre-ECMO Intubation Time (Hours)</span>
-	<input class="w-16" type="number" bind:value={intubation_time} />
-	<input class="w-64 range" type="range" min="0" max="672" bind:value={intubation_time} />
+<label class={css.input_group}>
+	<span class={css.input_text}>Intubation Time (Hours)</span>
+	<input class={css.slider_input} type="number" bind:value={intubation_time} />
+	<input class={css.slider_range} type="range" min="1" max="672" step="1" bind:value={intubation_time} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Age (Years)</span>
-	<input class="w-16" type="number" bind:value={age_years} />
-	<input class="w-64 range" type="range" min="0" max="81" bind:value={age_years} />
+<label class={css.input_group}>
+	<span class={css.input_text}>Age (Years)</span>
+	<input class={css.slider_input} type="number" bind:value={age_years} />
+	<input class={css.slider_range} type="range" min="0" max="81" step="1" bind:value={age_years} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Lactate (mmol/L)</span>
-	<input class="w-16" type="number" bind:value={lactate} />
-	<input class="w-64 range" type="range" min="0" max="40" bind:value={lactate} />
+<label class={css.input_group}>
+	<span class={css.input_text}>Lactate (mmol/L)</span>
+	<input class={css.slider_input} type="number" bind:value={lactate} />
+	<input class={css.slider_range} type="range" min="0" max="40" step="1" bind:value={lactate} />
 </label>
 
-<label class="input-group btn-group">
-	<span class="w-64">Pulmonary Embolism</span>
+<label class={css.input_group}>
+	<span class={css.input_text}>Pulmonary Embolism</span>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="pulmonary_embolism"
 		data-title="Yes"
-		on:change={() => {
-			pulmonary_embolism = 1;
-		}}
+		on:change={() => (pulmonary_embolism = 1)}
 	/>
 	<input
-		class="btn w-16"
+		class={css.boolean_button}
 		type="radio"
 		name="pulmonary_embolism"
 		data-title="No"
-		on:change={() => {
-			pulmonary_embolism = 0;
-		}}
+		on:change={() => (pulmonary_embolism = 0)}
 		checked
 	/>
 </label>
 
-<button class="btn" on:click={doPost}> Post it. </button>
+<button class="btn ml-5" on:click={submitParams}> Submit </button>
+
+<pre>
+	{result}
+</pre>
