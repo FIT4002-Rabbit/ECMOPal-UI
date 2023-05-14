@@ -12,7 +12,7 @@
 		boolean_button: 'btn w-32'
 	};
 
-	let year = 1;
+	let year = 0;
 	let chronic_lung_disease = 0;
 	let chronic_heart_failure = 0;
 	let coronary_artery_disease = 0;
@@ -25,16 +25,16 @@
 	let hco3 = 19;
 	let acute_kidney_injury = 0;
 	let renal_replacement_therapy = 0;
-	let cardiac_arrest = 0;
+	let cardiac_arrest = 1;
 	let bmi = 28;
 	let ratebreathssec = 12;
 	let fio2 = 100;
 	let po2 = 150;
 	let sbp = 77;
-	let intubation_time = 1;
-	let age_years = 50;
-	let lactate = 7.2;
-	let pulmonary_embolism = 0;
+	let intubation_time = 10;
+	let age_years = 80;
+	let lactate = 7;
+	let pulmonary_embolism = 1;
 
 	async function queryModel() {
 		const res = await fetch('http://127.0.0.1:5000/predict', {
