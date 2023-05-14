@@ -1,6 +1,8 @@
 <script>
-	import BooleanRadioGroup from "../components/BooleanRadioGroup/BooleanRadioGroup.svelte";
-	import FormSlider from "../components/FormSlider/FormSlider.svelte";
+	import BooleanRadioGroup from '../components/BooleanRadioGroup/BooleanRadioGroup.svelte';
+	import FormSlider from '../components/FormSlider/FormSlider.svelte';
+	import { onMount } from 'svelte';
+	import * as d3 from 'd3';
 
 	let css = {
 		input_group: 'input-group btn-group h-12 w-fit m-1 ml-5',
@@ -30,13 +32,11 @@
 	let po2 = 150;
 	let sbp = 77;
 	let intubation_time = 1;
-	let age_years = 0;
+	let age_years = 50;
 	let lactate = 7.2;
 	let pulmonary_embolism = 0;
 
-	let result = '';
-
-	async function submitParams() {
+	async function queryModel() {
 		const res = await fetch('http://127.0.0.1:5000/predict', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -67,22 +67,135 @@
 			])
 		});
 		const json = await res.json();
-		result = JSON.stringify(json);
+		return JSON.stringify(json);
+	}
+
+	async function handleSubmit() {
+		const result = await queryModel();
+		await drawChart(JSON.parse(result));
+		document.querySelector('#chart').scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+
+	function drawChart(modelData) {
+		const viewWidth = 1000;
+		const viewHeight = 600;
+
+		const margin = { top: 100, right: 20, bottom: 20, left: 200 };
+		const width = viewWidth - margin.left - margin.right;
+		const height = viewHeight - margin.top - margin.bottom;
+
+		let data = modelData;
+
+		// Create an array of indices for features_names
+		const indices = Array.from({ length: data.features_names.length }, (_, i) => i);
+
+		// Sort indices based on the corresponding values in features_values
+		indices.sort((a, b) => data.features_values[b] - data.features_values[a]);
+
+		// Re-order features_names based on the sorted indices
+		data.features_values = indices.map((i) => data.features_values[i]);
+		data.features_names = indices.map((i) => data.features_names[i]);
+
+		d3.select('#chart').selectAll('svg').remove();
+		const svg = d3
+			.select('#chart')
+			.append('svg')
+			.attr('viewBox', `0 0 ${viewWidth + margin.left} ${viewHeight + margin.top}`)
+			.append('g')
+			.attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+		const x = d3.scaleLinear().range([0, width]).domain(d3.extent(data.features_values)).nice();
+
+		const y = d3.scaleBand().range([0, height]).domain(data.features_names).padding(0.1);
+
+		svg
+			.selectAll('rect')
+			.data(data.features_values)
+			.enter()
+			.append('rect')
+			.attr('x', (d) => x(Math.min(0, d)))
+			.attr('y', (d, i) => y(data.features_names[i]))
+			.attr('width', (d) => Math.abs(x(d) - x(0)))
+			.attr('height', y.bandwidth())
+			.attr('fill', (d) => (d < 0 ? 'red' : 'steelblue'));
+
+		svg
+			.append('g')
+			.attr('transform', `translate(0, ${height})`)
+			.call(d3.axisBottom(x).tickFormat((d) => Math.abs(d)))
+			.selectAll('text')
+			.attr('transform', 'rotate(-45)')
+			.style('text-anchor', 'end')
+			.attr('dx', '-.8em')
+			.attr('dy', '.15em');
+
+		svg
+			.append('text')
+			.attr('x', viewWidth / 2)
+			.attr('y', -80)
+			.attr('text-anchor', 'middle')
+			.style('fill', 'white')
+			.style('font-size', '24px')
+			.append('tspan')
+			.text('Survival Prediction:')
+			.attr('x', viewWidth / 2)
+			.attr('dy', '1.2em')
+			.attr('text-anchor', 'middle')
+			.append('tspan')
+			.text(data.out_value)
+			.attr('x', viewWidth / 2)
+			.attr('dy', '1.2em')
+			.attr('text-anchor', 'middle');
+		svg.append('g').call(d3.axisLeft(y));
 	}
 </script>
 
-<BooleanRadioGroup label="Chronic Lung Disease" name="chronicLungDisease" bind:value={chronic_lung_disease} />
-<BooleanRadioGroup label="Chronic Heart Failure" name="chronicHeartFailure" bind:value={chronic_heart_failure} />
-<BooleanRadioGroup label="Coronary Artery Disease" name="coronaryArteryDisease" bind:value={coronary_artery_disease} />
+<BooleanRadioGroup
+	label="Chronic Lung Disease"
+	name="chronicLungDisease"
+	bind:value={chronic_lung_disease}
+/>
+<BooleanRadioGroup
+	label="Chronic Heart Failure"
+	name="chronicHeartFailure"
+	bind:value={chronic_heart_failure}
+/>
+<BooleanRadioGroup
+	label="Coronary Artery Disease"
+	name="coronaryArteryDisease"
+	bind:value={coronary_artery_disease}
+/>
 <BooleanRadioGroup label="Lung Transplant" name="lungTransplant" bind:value={lung_transplant} />
-<BooleanRadioGroup label="Vasopressors/Inotropes" name="vasopressorsInotropes" bind:value={vasopressors_inotropes} />
-<BooleanRadioGroup label="Cardiothoracic Surgery" name="cardiothoracicSurgery" bind:value={cardiothoracic_surgery} />
+<BooleanRadioGroup
+	label="Vasopressors/Inotropes"
+	name="vasopressorsInotropes"
+	bind:value={vasopressors_inotropes}
+/>
+<BooleanRadioGroup
+	label="Cardiothoracic Surgery"
+	name="cardiothoracicSurgery"
+	bind:value={cardiothoracic_surgery}
+/>
 <FormSlider label="pH" min={0} max={8} step={0.1} bind:value={ph} />
-<BooleanRadioGroup label="Bicarbonate Infusion" name="bicarbonateInfusion" bind:value={bicarbonate_infusion} />
+<BooleanRadioGroup
+	label="Bicarbonate Infusion"
+	name="bicarbonateInfusion"
+	bind:value={bicarbonate_infusion}
+/>
 <FormSlider label="PCO2" min={15} max={200} step={5} bind:value={pco2} />
-<FormSlider label="HCO3" min={1} max={40} step={1} bind:value={hco3} /> 
-<BooleanRadioGroup label="Acute Kidney Injury" name="acuteKidneyInjury" bind:value={acute_kidney_injury} />
-<BooleanRadioGroup label="Renal Replacement Therapy" name="renalReplacementTherapy" bind:value={renal_replacement_therapy} />
+<FormSlider label="HCO3" min={1} max={40} step={1} bind:value={hco3} />
+<BooleanRadioGroup
+	label="Acute Kidney Injury"
+	name="acuteKidneyInjury"
+	bind:value={acute_kidney_injury}
+/>
+<BooleanRadioGroup
+	label="Renal Replacement Therapy"
+	name="renalReplacementTherapy"
+	bind:value={renal_replacement_therapy}
+/>
 <BooleanRadioGroup label="Cardiac Arrest" name="cardiacArrest" bind:value={cardiac_arrest} />
 <FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={bmi} />
 <FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={ratebreathssec} />
@@ -92,10 +205,12 @@
 <FormSlider label="Intubation Time (Hours)" min={1} max={672} bind:value={intubation_time} />
 <FormSlider label="Age (Years)" min={0} max={81} bind:value={age_years} />
 <FormSlider label="Lactate (mmol/L)" min={0} max={40} step={1} bind:value={lactate} />
-<BooleanRadioGroup label="Pulmonary Embolism" name="pulmonaryEmbolism" bind:value={pulmonary_embolism} />
+<BooleanRadioGroup
+	label="Pulmonary Embolism"
+	name="pulmonaryEmbolism"
+	bind:value={pulmonary_embolism}
+/>
 
-<button class="btn ml-5" on:click={submitParams}> Submit </button>
+<button class="btn ml-5" on:click={handleSubmit}> Submit </button>
 
-<pre>
-	{result}
-</pre>
+<div id="chart" />
