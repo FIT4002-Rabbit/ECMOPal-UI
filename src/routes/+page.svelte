@@ -73,7 +73,7 @@
 	async function handleSubmit() {
 		const result = await queryModel();
 		await drawChart(JSON.parse(result));
-		document.querySelector('#chart').scrollIntoView({
+		document.querySelector('#chart')?.scrollIntoView({
 			behavior: 'smooth'
 		});
 	}
@@ -152,65 +152,71 @@
 	}
 </script>
 
-<BooleanRadioGroup
-	label="Chronic Lung Disease"
-	name="chronicLungDisease"
-	bind:value={chronic_lung_disease}
-/>
-<BooleanRadioGroup
-	label="Chronic Heart Failure"
-	name="chronicHeartFailure"
-	bind:value={chronic_heart_failure}
-/>
-<BooleanRadioGroup
-	label="Coronary Artery Disease"
-	name="coronaryArteryDisease"
-	bind:value={coronary_artery_disease}
-/>
-<BooleanRadioGroup label="Lung Transplant" name="lungTransplant" bind:value={lung_transplant} />
-<BooleanRadioGroup
-	label="Vasopressors/Inotropes"
-	name="vasopressorsInotropes"
-	bind:value={vasopressors_inotropes}
-/>
-<BooleanRadioGroup
-	label="Cardiothoracic Surgery"
-	name="cardiothoracicSurgery"
-	bind:value={cardiothoracic_surgery}
-/>
-<FormSlider label="pH" min={0} max={8} step={0.1} bind:value={ph} />
-<BooleanRadioGroup
-	label="Bicarbonate Infusion"
-	name="bicarbonateInfusion"
-	bind:value={bicarbonate_infusion}
-/>
-<FormSlider label="PCO2" min={15} max={200} step={5} bind:value={pco2} />
-<FormSlider label="HCO3" min={1} max={40} step={1} bind:value={hco3} />
-<BooleanRadioGroup
-	label="Acute Kidney Injury"
-	name="acuteKidneyInjury"
-	bind:value={acute_kidney_injury}
-/>
-<BooleanRadioGroup
-	label="Renal Replacement Therapy"
-	name="renalReplacementTherapy"
-	bind:value={renal_replacement_therapy}
-/>
-<BooleanRadioGroup label="Cardiac Arrest" name="cardiacArrest" bind:value={cardiac_arrest} />
-<FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={bmi} />
-<FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={ratebreathssec} />
-<FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={fio2} />
-<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={po2} />
-<FormSlider label="Systolic Blood Pressure (mmHg)" min={0} max={300} step={10} bind:value={sbp} />
-<FormSlider label="Intubation Time (Hours)" min={1} max={672} bind:value={intubation_time} />
-<FormSlider label="Age (Years)" min={0} max={81} bind:value={age_years} />
-<FormSlider label="Lactate (mmol/L)" min={0} max={40} step={1} bind:value={lactate} />
-<BooleanRadioGroup
-	label="Pulmonary Embolism"
-	name="pulmonaryEmbolism"
-	bind:value={pulmonary_embolism}
-/>
+<div class="prose container mx-auto mt-3">
+	<h1>ECMO Pal Lite</h1>
+	<p>Extracorporeal membrane oxygenation survivability predictor</p>
+	<p>Please enter the following information regarding the patient</p>
 
-<button class="btn ml-5" on:click={handleSubmit}> Submit </button>
+	<BooleanRadioGroup
+		label="Chronic Lung Disease"
+		name="chronicLungDisease"
+		bind:value={chronic_lung_disease}
+	/>
+	<BooleanRadioGroup
+		label="Chronic Heart Failure"
+		name="chronicHeartFailure"
+		bind:value={chronic_heart_failure}
+	/>
+	<BooleanRadioGroup
+		label="Coronary Artery Disease"
+		name="coronaryArteryDisease"
+		bind:value={coronary_artery_disease}
+	/>
+	<BooleanRadioGroup label="Lung Transplant" name="lungTransplant" bind:value={lung_transplant} />
+	<BooleanRadioGroup
+		label="Vasopressors/Inotropes"
+		name="vasopressorsInotropes"
+		bind:value={vasopressors_inotropes}
+	/>
+	<BooleanRadioGroup
+		label="Cardiothoracic Surgery"
+		name="cardiothoracicSurgery"
+		bind:value={cardiothoracic_surgery}
+	/>
+	<FormSlider label="pH" min={0} max={8} step={0.1} bind:value={ph} />
+	<BooleanRadioGroup
+		label="Bicarbonate Infusion"
+		name="bicarbonateInfusion"
+		bind:value={bicarbonate_infusion}
+	/>
+	<FormSlider label="PCO2" min={15} max={200} step={5} bind:value={pco2} />
+	<FormSlider label="HCO3" min={1} max={40} step={1} bind:value={hco3} />
+	<BooleanRadioGroup
+		label="Acute Kidney Injury"
+		name="acuteKidneyInjury"
+		bind:value={acute_kidney_injury}
+	/>
+	<BooleanRadioGroup
+		label="Renal Replacement Therapy"
+		name="renalReplacementTherapy"
+		bind:value={renal_replacement_therapy}
+	/>
+	<BooleanRadioGroup label="Cardiac Arrest" name="cardiacArrest" bind:value={cardiac_arrest} />
+	<FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={bmi} />
+	<FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={ratebreathssec} />
+	<FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={fio2} />
+	<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={po2} />
+	<FormSlider label="Systolic Blood Pressure (mmHg)" min={0} max={300} step={10} bind:value={sbp} />
+	<FormSlider label="Intubation Time (Hours)" min={1} max={672} bind:value={intubation_time} />
+	<FormSlider label="Age (Years)" min={0} max={81} bind:value={age_years} />
+	<FormSlider label="Lactate (mmol/L)" min={0} max={40} step={1} bind:value={lactate} />
+	<BooleanRadioGroup
+		label="Pulmonary Embolism"
+		name="pulmonaryEmbolism"
+		bind:value={pulmonary_embolism}
+	/>
+
+	<button class="my-5 btn btn-primary" on:click={handleSubmit}> Submit </button>
+</div>
 
 <div id="chart" />
