@@ -37,34 +37,20 @@
 	// let pulmonary_embolism = 1;
 
 	async function queryModel() {
+		let body = {
+			year : year,
+			cardiac_arrest : cardiac_arrest,
+			bmi : bmi,
+			pao2 : pao2,
+			sbp : sbp,
+			intubation_time : intubation_time,
+			age_years : age_years,
+			lactate : lactate
+		}
 		const res = await fetch('http://127.0.0.1:5000/predict', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify([
-				year,
-				// chronic_lung_disease,
-				// chronic_heart_failure,
-				// coronary_artery_disease,
-				// lung_transplant,
-				// vasopressors_inotropes,
-				// cardiothoracic_surgery,
-				// ph,
-				// bicarbonate_infusion,
-				// pco2,
-				// hco3,
-				// acute_kidney_injury,
-				// renal_replacement_therapy,
-				cardiac_arrest,
-				bmi,
-				// ratebreathssec,
-				// fio2,
-				pao2,
-				sbp,
-				intubation_time,
-				age_years,
-				lactate
-				// pulmonary_embolism
-			])
+			body: JSON.stringify(body)
 		});
 		const json = await res.json();
 		return JSON.stringify(json);
