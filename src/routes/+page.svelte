@@ -38,15 +38,15 @@
 
 	async function queryModel() {
 		let body = {
-			year : year,
-			cardiac_arrest : cardiac_arrest,
-			bmi : bmi,
-			pao2 : pao2,
-			sbp : sbp,
-			intubation_time : intubation_time,
-			age_years : age_years,
-			lactate : lactate
-		}
+			year: year,
+			cardiac_arrest: cardiac_arrest,
+			bmi: bmi,
+			pao2: pao2,
+			sbp: sbp,
+			intubation_time: intubation_time,
+			age_years: age_years,
+			lactate: lactate
+		};
 		const res = await fetch('http://127.0.0.1:5000/predict', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
