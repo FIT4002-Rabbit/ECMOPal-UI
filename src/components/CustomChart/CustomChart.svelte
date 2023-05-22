@@ -34,7 +34,7 @@
 			.append('g')
 			.attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-		const x = d3.scaleLinear().range([0, width]).domain(d3.extent(data.feature_values)).nice();
+		const x = d3.scaleLinear().range([0, width]).domain(d3.extent(data.feature_values) as number[]).nice();
 
 		const y = d3.scaleBand().range([0, height]).domain(data.feature_names).padding(0.1);
 
@@ -44,15 +44,15 @@
 			.enter()
 			.append('rect')
 			.attr('x', (d) => x(Math.min(0, d)))
-			.attr('y', (d, i) => y(data.feature_names[i]))
+			.attr('y', (d, i) => y(data.feature_names[i]) ?? 0)
 			.attr('width', (d) => Math.abs(x(d) - x(0)))
 			.attr('height', y.bandwidth())
 			.attr('fill', (d) => (d < 0 ? 'red' : 'steelblue'));
 
-		svg
+			svg
 			.append('g')
 			.attr('transform', `translate(0, ${height})`)
-			.call(d3.axisBottom(x).tickFormat((d) => Math.abs(d)))
+			.call(d3.axisBottom(x).tickFormat((d) => `${Math.abs(Number(d))}`))
 			.selectAll('text')
 			.attr('transform', 'rotate(-45)')
 			.style('text-anchor', 'end')
