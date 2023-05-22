@@ -1,14 +1,14 @@
 <script lang="ts">
-    // d3 imports
-    import * as d3 from 'd3';
+	// d3 imports
+	import * as d3 from 'd3';
 
-    // project component imports
-    import type { PredictionResults } from "../../types/PredictionResults";
+	// project component imports
+	import type { PredictionResults } from '../../types/PredictionResults';
 
-    // project type imports
-    export let data: PredictionResults;
+	// project type imports
+	export let data: PredictionResults;
 
-	function drawChart(data:PredictionResults) {
+	function drawChart(data: PredictionResults) {
 		const viewWidth = 1000;
 		const viewHeight = 600;
 
@@ -34,7 +34,11 @@
 			.append('g')
 			.attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-		const x = d3.scaleLinear().range([0, width]).domain(d3.extent(data.feature_values) as number[]).nice();
+		const x = d3
+			.scaleLinear()
+			.range([0, width])
+			.domain(d3.extent(data.feature_values) as number[])
+			.nice();
 
 		const y = d3.scaleBand().range([0, height]).domain(data.feature_names).padding(0.1);
 
@@ -49,7 +53,7 @@
 			.attr('height', y.bandwidth())
 			.attr('fill', (d) => (d < 0 ? 'red' : 'steelblue'));
 
-			svg
+		svg
 			.append('g')
 			.attr('transform', `translate(0, ${height})`)
 			.call(d3.axisBottom(x).tickFormat((d) => `${Math.abs(Number(d))}`))
@@ -79,9 +83,9 @@
 		svg.append('g').call(d3.axisLeft(y));
 	}
 
-    $: if (data) {
-        drawChart(data);
-    }
+	$: if (data) {
+		drawChart(data);
+	}
 </script>
 
 <div id="chart" />
