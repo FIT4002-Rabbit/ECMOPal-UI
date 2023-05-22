@@ -1,8 +1,8 @@
 <script lang="ts">
 	// project component imports
-	import BooleanRadioGroup from '../components/BooleanRadioGroup/BooleanRadioGroup.svelte';
-	import FormSlider from '../components/FormSlider/FormSlider.svelte';
-	import CustomChart from '../components/CustomChart/CustomChart.svelte';
+	import BooleanRadioGroup from '../components/BooleanRadioGroup.svelte';
+	import FormSlider from '../components/FormSlider.svelte';
+	import CustomChart from '../components/CustomChart.svelte';
 
 	// project type imports
 	import type { PatientData } from '../types/PatientData';
