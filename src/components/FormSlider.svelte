@@ -1,9 +1,9 @@
 <script lang="ts">
 	export let label: string;
-	export let min: number = 0;
-	export let max: number = 100;
-	export let step: number = 1;
-	export let value: number = 0;
+	export let min = 0;
+	export let max = 100;
+	export let step = 1;
+	export let value = 0;
 
 	let css = {
 		input_group: 'input-group btn-group h-12 w-fit my-1',
