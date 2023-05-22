@@ -1,3 +1,4 @@
+<!-- svelte-ignore-all a11y-missing-attribute -->
 <script>
 	import '../app.css';
 </script>
