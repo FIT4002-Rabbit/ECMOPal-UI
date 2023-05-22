@@ -72,7 +72,7 @@
 			.attr('dy', '1.2em')
 			.attr('text-anchor', 'middle')
 			.append('tspan')
-			.text(data.out_value)
+			.text(Number(data.out_value.toFixed(3)))
 			.attr('x', viewWidth / 2)
 			.attr('dy', '1.2em')
 			.attr('text-anchor', 'middle');
