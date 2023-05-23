@@ -8,12 +8,15 @@
         DARK: 'dark',
         LIGHT: 'pastel',
     };
+
+    
+    let currentTheme = THEMES.DARK;
   
     const prefersDarkThemes = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     const applyTheme = () => {
         const preferredTheme = prefersDarkThemes() ? THEMES.DARK : THEMES.LIGHT;
-        let currentTheme = localStorage.getItem(STORAGE_KEY) ?? preferredTheme;
+        currentTheme = localStorage.getItem(STORAGE_KEY) ?? preferredTheme;
 
         document.body.setAttribute('data-theme', currentTheme);
     };
@@ -37,5 +40,7 @@
   </script>
 
 <div>
-    <button class="btn btn-sm bg-200" on:click={toggleTheme}>Toggle Theme</button> 
+    <button class="btn btn-sm bg-200" on:click={toggleTheme}>
+        {currentTheme === THEMES.DARK ? 'Light mode' : 'Dark mode'}
+    </button> 
 </div>
