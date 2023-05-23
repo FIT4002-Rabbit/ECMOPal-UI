@@ -12,7 +12,9 @@
 	<header class="flex flex-wrap justify-between p-3 md:p-10 bg-base-200">
 		<div>
 			<h1 class="text-4xl md:text-6xl"><b>ECMO PAL</b> Lite</h1>
-			<p class="text-xs">Extracorporeal membrane oxygenation survivability predictor, lite version</p>
+			<p class="text-xs">
+				Extracorporeal membrane oxygenation survivability predictor, lite version
+			</p>
 		</div>
 		<div class="my-auto p-1">
 			<ThemeToggle />

@@ -135,7 +135,7 @@
 	/> -->
 
 	<!-- Break for forcing submit button to its own row -->
-	<div class="basis-full h-0"></div>
+	<div class="basis-full h-0" />
 
 	<button class="btn btn-primary w-32 m-1" on:click={handleSubmit}>Submit</button>
 </div>
