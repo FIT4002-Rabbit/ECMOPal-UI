@@ -57,54 +57,52 @@
 	}
 </script>
 
-<div class="prose container mx-auto mt-3">
-	<h1>ECMO PAL Lite</h1>
-	<p>Extracorporeal membrane oxygenation survivability predictor</p>
-	<p>Please enter the following information regarding the patient</p>
+<div class="mx-auto my-5 flex flex-wrap flex-row justify-center">
+	<p class="basis-full text-center">Please enter the following information regarding the patient</p>
 
 	<!-- <BooleanRadioGroup
 		label="Chronic Lung Disease"
 		name="chronicLungDisease"
-		bind:value={chronic_lung_disease}
+		bind:value={patientData.chronic_lung_disease}
 	/>
 	<BooleanRadioGroup
 		label="Chronic Heart Failure"
 		name="chronicHeartFailure"
-		bind:value={chronic_heart_failure}
+		bind:value={patientData.chronic_heart_failure}
 	/>
 	<BooleanRadioGroup
 		label="Coronary Artery Disease"
 		name="coronaryArteryDisease"
-		bind:value={coronary_artery_disease}
+		bind:value={patientData.coronary_artery_disease}
 	/>
-	<BooleanRadioGroup label="Lung Transplant" name="lungTransplant" bind:value={lung_transplant} />
+	<BooleanRadioGroup label="Lung Transplant" name="lungTransplant" bind:value={patientData.lung_transplant} />
 	<BooleanRadioGroup
 		label="Vasopressors/Inotropes"
 		name="vasopressorsInotropes"
-		bind:value={vasopressors_inotropes}
+		bind:value={patientData.vasopressors_inotropes}
 	/>
 	<BooleanRadioGroup
 		label="Cardiothoracic Surgery"
 		name="cardiothoracicSurgery"
-		bind:value={cardiothoracic_surgery}
+		bind:value={patientData.cardiothoracic_surgery}
 	/>
-	<FormSlider label="pH" min={0} max={8} step={0.1} bind:value={ph} />
+	<FormSlider label="pH" min={0} max={8} step={0.1} bind:value={patientData.ph} />
 	<BooleanRadioGroup
 		label="Bicarbonate Infusion"
 		name="bicarbonateInfusion"
-		bind:value={bicarbonate_infusion}
+		bind:value={patientData.bicarbonate_infusion}
 	/>
-	<FormSlider label="PCO2" min={15} max={200} step={5} bind:value={pco2} />
-	<FormSlider label="HCO3" min={1} max={40} step={1} bind:value={hco3} />
+	<FormSlider label="PCO2" min={15} max={200} step={5} bind:value={patientData.pco2} />
+	<FormSlider label="HCO3" min={1} max={40} step={1} bind:value={patientData.hco3} />
 	<BooleanRadioGroup
 		label="Acute Kidney Injury"
 		name="acuteKidneyInjury"
-		bind:value={acute_kidney_injury}
+		bind:value={patientData.acute_kidney_injury}
 	/>
 	<BooleanRadioGroup
 		label="Renal Replacement Therapy"
 		name="renalReplacementTherapy"
-		bind:value={renal_replacement_therapy}
+		bind:value={patientData.renal_replacement_therapy}
 	/> -->
 	<BooleanRadioGroup
 		label="Cardiac Arrest"
@@ -112,8 +110,8 @@
 		bind:value={patientData.cardiac_arrest}
 	/>
 	<FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={patientData.bmi} />
-	<!-- <FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={ratebreathssec} /> -->
-	<!-- <FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={fio2} /> -->
+	<!-- <FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={patientData.ratebreathssec} /> -->
+	<!-- <FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={patientData.fio2} /> -->
 	<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={patientData.pao2} />
 	<FormSlider
 		label="Systolic Blood Pressure (mmHg)"
@@ -133,10 +131,13 @@
 	<!-- <BooleanRadioGroup
 		label="Pulmonary Embolism"
 		name="pulmonaryEmbolism"
-		bind:value={pulmonary_embolism}
+		bind:value={patientData.pulmonary_embolism}
 	/> -->
 
-	<button class="my-5 btn btn-primary" on:click={handleSubmit}>Submit</button>
+	<!-- Break for forcing submit button to its own row -->
+	<div class="basis-full h-0" />
+
+	<button class="btn btn-primary w-32 m-1" on:click={handleSubmit}>Submit</button>
 </div>
 
 <div>

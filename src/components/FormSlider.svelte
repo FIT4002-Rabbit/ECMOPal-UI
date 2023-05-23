@@ -6,16 +6,19 @@
 	export let value = 0;
 
 	let css = {
-		input_group: 'input-group btn-group h-12 w-fit my-1',
-		input_text: 'w-64',
-		slider_range: 'w-48 range m-auto',
-		slider_input: 'w-16',
-		boolean_button: 'btn w-32'
+		input_group:
+			'flex flex-wrap flex-row justify-between rounded bg-base-300 h-16 w-5/6 md:w-2/3 lg:w-1/3 m-1 p-1',
+		input_text: 'text-center my-auto basis-full md:basis-1/2',
+		slider_group: 'btn-group basis-full md:basis-1/2',
+		slider_input: 'w-1/5 rounded',
+		slider_range: 'range w-4/5 mx-2 my-auto'
 	};
 </script>
 
 <label class={css.input_group}>
 	<span class={css.input_text}>{label}</span>
-	<input class={css.slider_input} type="number" bind:value {min} {max} {step} />
-	<input class={css.slider_range} type="range" bind:value {min} {max} {step} />
+	<div class={css.slider_group}>
+		<input class={css.slider_input} type="number" bind:value {min} {max} {step} />
+		<input class={css.slider_range} type="range" bind:value {min} {max} {step} />
+	</div>
 </label>

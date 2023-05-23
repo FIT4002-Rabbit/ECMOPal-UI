@@ -1,6 +1,7 @@
 <!-- svelte-ignore-all a11y-missing-attribute -->
 <script>
 	import '../app.css';
+	import ThemeToggle from '../components/ThemeToggle.svelte';
 </script>
 
 <svelte:head>
@@ -8,11 +9,23 @@
 </svelte:head>
 
 <div class="flex flex-col h-100 min-h-screen">
+	<header class="flex flex-wrap justify-between p-3 md:p-10 bg-base-200">
+		<div>
+			<h1 class="text-4xl md:text-6xl"><b>ECMO PAL</b> Lite</h1>
+			<p class="text-xs">
+				Extracorporeal membrane oxygenation survivability predictor, lite version
+			</p>
+		</div>
+		<div class="my-auto p-1">
+			<ThemeToggle />
+		</div>
+	</header>
+
 	<div class="flex-1">
 		<slot />
 	</div>
 
-	<footer class="footer p-10 bg-base-200 text-base-content flex-none">
+	<footer class="footer p-10 bg-base-200">
 		<div>
 			<svg
 				width="50"
@@ -30,23 +43,23 @@
 		</div>
 		<div>
 			<span class="footer-title">Services</span>
-			<a class="link link-hover">Branding</a>
-			<a class="link link-hover">Design</a>
-			<a class="link link-hover">Marketing</a>
-			<a class="link link-hover">Advertisement</a>
+			<a href="/" class="link link-hover">Branding</a>
+			<a href="/" class="link link-hover">Design</a>
+			<a href="/" class="link link-hover">Marketing</a>
+			<a href="/" class="link link-hover">Advertisement</a>
 		</div>
 		<div>
 			<span class="footer-title">Company</span>
-			<a class="link link-hover">About us</a>
-			<a class="link link-hover">Contact</a>
-			<a class="link link-hover">Jobs</a>
-			<a class="link link-hover">Press kit</a>
+			<a href="/" class="link link-hover">About us</a>
+			<a href="/" class="link link-hover">Contact</a>
+			<a href="/" class="link link-hover">Jobs</a>
+			<a href="/" class="link link-hover">Press kit</a>
 		</div>
 		<div>
 			<span class="footer-title">Legal</span>
-			<a class="link link-hover">Terms of use</a>
-			<a class="link link-hover">Privacy policy</a>
-			<a class="link link-hover">Cookie policy</a>
+			<a href="/" class="link link-hover">Terms of use</a>
+			<a href="/" class="link link-hover">Privacy policy</a>
+			<a href="/" class="link link-hover">Cookie policy</a>
 		</div>
 	</footer>
 </div>
