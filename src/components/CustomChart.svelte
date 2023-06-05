@@ -14,13 +14,6 @@
 		chartTitle = "Survivability";
 		chartProbability = `${Number((data.out_value * 100).toFixed(2)) }%`
 
-		const viewWidth = 1000;
-		const viewHeight = 600;
-
-		const margin = { top: 10, right: 20, bottom: 30, left: 150 };
-		const width = viewWidth - margin.right;
-		const height = viewHeight - margin.top - margin.bottom;
-
 		// Create an array of indices for feature_names
 		const indices = Array.from({ length: data.feature_names.length }, (_, i) => i);
 
@@ -28,8 +21,18 @@
 		indices.sort((a, b) => data.feature_values[b] - data.feature_values[a]);
 
 		// Re-order feature_names based on the sorted indices
+		data.feature_names = indices.map((i) => `${data.feature_names[i]} ${Number((data.feature_values[i] * 100).toFixed(2)) }%`);
 		data.feature_values = indices.map((i) => data.feature_values[i]);
-		data.feature_names = indices.map((i) => data.feature_names[i]);
+
+		//multiplier is a magic number just setting what looks right currently
+		const maxLabelWidth = (d3.max(data.feature_names, (d) => d.length) ?? 150) * 2.75; 
+		const margin = { top: 10, right: 20, bottom: 10, left: maxLabelWidth * 10 };
+
+		const viewWidth = 500;
+		const viewHeight = 600;
+
+		const width = viewWidth - margin.right;
+		const height = viewHeight - margin.top - margin.bottom;
 
 		// cleanup before new render
 		d3.select('#chart').selectAll('svg').remove();
@@ -63,18 +66,10 @@
 			.attr('fill', (d) => (d < 0 ? 'red' : 'steelblue'));
 
 		// y axis
-		svg.append('g').call(d3.axisLeft(y));
-
-		// x axis
 		svg
-			.append('g')
-			.attr('transform', `translate(0, ${height})`)
-			.call(d3.axisBottom(x).tickFormat((d) => `${Math.abs(Number(d))}`))
+			.append('g').call(d3.axisLeft(y))
 			.selectAll('text')
-			.attr('transform', 'rotate(-45)')
-			.style('text-anchor', 'end')
-			.attr('dx', '-.8em')
-			.attr('dy', '.15em');
+			.style('font-size', '3rem'); // Adjust the font size as needed
 	}
 
 	$: if (data) {

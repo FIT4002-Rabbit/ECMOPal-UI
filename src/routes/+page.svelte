@@ -50,7 +50,6 @@
 	async function handleSubmit() {
 		const result = await queryModel();
 		predictionResults = JSON.parse(result);
-		console.log(predictionResults);
 		document.querySelector('#chart')?.scrollIntoView({
 			behavior: 'smooth'
 		});
