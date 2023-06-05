@@ -7,13 +7,18 @@
 
 	// project type imports
 	export let data: PredictionResults;
+	let chartTitle = "";
+	let chartProbability = ""
 
 	function drawChart(data: PredictionResults) {
+		chartTitle = "Survivability";
+		chartProbability = `${Number((data.out_value * 100).toFixed(2)) }%`
+
 		const viewWidth = 1000;
 		const viewHeight = 600;
 
-		const margin = { top: 100, right: 20, bottom: 20, left: 200 };
-		const width = viewWidth - margin.left - margin.right;
+		const margin = { top: 10, right: 20, bottom: 30, left: 150 };
+		const width = viewWidth - margin.right;
 		const height = viewHeight - margin.top - margin.bottom;
 
 		// Create an array of indices for feature_names
@@ -26,6 +31,7 @@
 		data.feature_values = indices.map((i) => data.feature_values[i]);
 		data.feature_names = indices.map((i) => data.feature_names[i]);
 
+		// cleanup before new render
 		d3.select('#chart').selectAll('svg').remove();
 		const svg = d3
 			.select('#chart')
@@ -34,14 +40,17 @@
 			.append('g')
 			.attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+		// x
 		const x = d3
 			.scaleLinear()
 			.range([0, width])
 			.domain(d3.extent(data.feature_values) as number[])
 			.nice();
 
+		// y
 		const y = d3.scaleBand().range([0, height]).domain(data.feature_names).padding(0.1);
 
+		// bars
 		svg
 			.selectAll('rect')
 			.data(data.feature_values)
@@ -53,6 +62,10 @@
 			.attr('height', y.bandwidth())
 			.attr('fill', (d) => (d < 0 ? 'red' : 'steelblue'));
 
+		// y axis
+		svg.append('g').call(d3.axisLeft(y));
+
+		// x axis
 		svg
 			.append('g')
 			.attr('transform', `translate(0, ${height})`)
@@ -62,25 +75,6 @@
 			.style('text-anchor', 'end')
 			.attr('dx', '-.8em')
 			.attr('dy', '.15em');
-
-		svg
-			.append('text')
-			.attr('x', viewWidth / 2)
-			.attr('y', -80)
-			.attr('text-anchor', 'middle')
-			.style('fill', 'white')
-			.style('font-size', '24px')
-			.append('tspan')
-			.text('Survival Prediction:')
-			.attr('x', viewWidth / 2)
-			.attr('dy', '1.2em')
-			.attr('text-anchor', 'middle')
-			.append('tspan')
-			.text(Number(data.out_value.toFixed(3)))
-			.attr('x', viewWidth / 2)
-			.attr('dy', '1.2em')
-			.attr('text-anchor', 'middle');
-		svg.append('g').call(d3.axisLeft(y));
 	}
 
 	$: if (data) {
@@ -88,4 +82,6 @@
 	}
 </script>
 
+<h1 id="chart-title" class="text-1xl md:text-2xl text-center">{chartTitle}</h1>
+<h1 id="chart-probability" class="text-4xl md:text-6xl text-center">{chartProbability}</h1>
 <div id="chart" />
