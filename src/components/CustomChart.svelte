@@ -13,7 +13,7 @@
 	function drawChart(data: PredictionResults) {
 		chartTitle = "Survivability";
 		chartProbability = `${Number((data.out_value * 100).toFixed(2)) }%`
-
+		const labelColor = (value: number) => (value < 0 ? 'red' : 'steelblue');
 		// Create an array of indices for feature_names
 		const indices = Array.from({ length: data.feature_names.length }, (_, i) => i);
 
@@ -24,12 +24,13 @@
 		data.feature_names = indices.map((i) => `${data.feature_names[i]} ${Number((data.feature_values[i] * 100).toFixed(2)) }%`);
 		data.feature_values = indices.map((i) => data.feature_values[i]);
 
+
 		//multiplier is a magic number just setting what looks right currently
-		const maxLabelWidth = (d3.max(data.feature_names, (d) => d.length) ?? 150) * 2.75; 
+		const maxLabelWidth = (d3.max(data.feature_names, (d) => d.length) ?? 150) * 5.5; 
 		const margin = { top: 10, right: 20, bottom: 10, left: maxLabelWidth * 10 };
 
 		const viewWidth = 500;
-		const viewHeight = 600;
+		const viewHeight = 1000;
 
 		const width = viewWidth - margin.right;
 		const height = viewHeight - margin.top - margin.bottom;
@@ -51,7 +52,11 @@
 			.nice();
 
 		// y
-		const y = d3.scaleBand().range([0, height]).domain(data.feature_names).padding(0.1);
+		const y = d3
+			.scaleBand()
+			.range([0, height])
+			.domain(data.feature_names)
+			.padding(0.2);
 
 		// bars
 		svg
@@ -62,21 +67,60 @@
 			.attr('x', (d) => x(Math.min(0, d)))
 			.attr('y', (d, i) => y(data.feature_names[i]) ?? 0)
 			.attr('width', (d) => Math.abs(x(d) - x(0)))
-			.attr('height', y.bandwidth())
-			.attr('fill', (d) => (d < 0 ? 'red' : 'steelblue'));
+			.attr('height', 100)
+			.attr('fill', (d) => labelColor(d));
+
 
 		// y axis
+		const percentageRegex = /(-?\d+(\.\d+)?)%/;
 		svg
 			.append('g').call(d3.axisLeft(y))
 			.selectAll('text')
-			.style('font-size', '3rem'); // Adjust the font size as needed
-	}
+			.attr('class', 'text-8xl')
+			.html((d, i) => {
+				const label = data.feature_names[i];
+				const percentageMatch = label.match(percentageRegex);
+				const percentageValue = percentageMatch ? percentageMatch[1] : '';
+				const totalLength = 6; // Total length for number component of axis label including spaces, negative symbol, and number
+				let prefixSpaces = '';
+				const remainingLength = totalLength - percentageValue.length;
+				if (remainingLength > 0) {
+					prefixSpaces = '&nbsp;'.repeat(remainingLength);
+				}
+				const coloredPercentage = `<tspan style="font-family: 'Fira Code', monospace;" fill="${labelColor(parseFloat(percentageValue))}">${prefixSpaces}${percentageValue}</tspan>`;
+				return label.replace(percentageRegex, coloredPercentage);
+				});
+			}
+
+// 			svg
+//   .append('g')
+//   .call(d3.axisLeft(y))
+//   .selectAll('text')
+//   .attr('class', 'text-5xl')
+//   .attr('text-anchor', 'end')
+//   .style('white-space', 'pre')
+//   .attr('fill', (d, i) => labelColor(data.feature_values[i]))
+//   .html((d, i) => {
+//     const label = data.feature_names[i];
+//     const percentageMatch = label.match(percentageRegex);
+//     const percentageValue = percentageMatch ? percentageMatch[1] : '';
+//     const totalLength = 6; // Total length including spaces, negative symbol, and number
+
+//     let prefixSpaces = '';
+//     const remainingLength = totalLength - percentageValue.length;
+//     if (remainingLength > 0) {
+//       prefixSpaces = ' '.repeat(remainingLength);
+//     }
+
+//     const coloredPercentage = `<tspan fill="${labelColor(parseFloat(percentageValue))}">${prefixSpaces}${percentageValue}</tspan>`;
+//     return label.replace(percentageRegex, coloredPercentage);
+//   });
+
 
 	$: if (data) {
 		drawChart(data);
 	}
 </script>
-
 <h1 id="chart-title" class="text-1xl md:text-2xl text-center">{chartTitle}</h1>
 <h1 id="chart-probability" class="text-4xl md:text-6xl text-center">{chartProbability}</h1>
 <div id="chart" />
