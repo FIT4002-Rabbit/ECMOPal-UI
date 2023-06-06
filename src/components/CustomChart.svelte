@@ -92,31 +92,6 @@
 				});
 			}
 
-// 			svg
-//   .append('g')
-//   .call(d3.axisLeft(y))
-//   .selectAll('text')
-//   .attr('class', 'text-5xl')
-//   .attr('text-anchor', 'end')
-//   .style('white-space', 'pre')
-//   .attr('fill', (d, i) => labelColor(data.feature_values[i]))
-//   .html((d, i) => {
-//     const label = data.feature_names[i];
-//     const percentageMatch = label.match(percentageRegex);
-//     const percentageValue = percentageMatch ? percentageMatch[1] : '';
-//     const totalLength = 6; // Total length including spaces, negative symbol, and number
-
-//     let prefixSpaces = '';
-//     const remainingLength = totalLength - percentageValue.length;
-//     if (remainingLength > 0) {
-//       prefixSpaces = ' '.repeat(remainingLength);
-//     }
-
-//     const coloredPercentage = `<tspan fill="${labelColor(parseFloat(percentageValue))}">${prefixSpaces}${percentageValue}</tspan>`;
-//     return label.replace(percentageRegex, coloredPercentage);
-//   });
-
-
 	$: if (data) {
 		drawChart(data);
 	}
