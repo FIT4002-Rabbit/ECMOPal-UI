@@ -18,7 +18,7 @@
 <label class={css.input_group}>
 	<span class={css.input_text}>{label}</span>
 	<div class={css.slider_group}>
-		<input class={css.slider_input} type="number" bind:value {min} {max} {step} />
-		<input class={css.slider_range} type="range" bind:value {min} {max} {step} />
+		<input class={css.slider_input} data-testid={label + " number"} type="number" bind:value {min} {max} {step} />
+		<input class={css.slider_range} data-testid={label + " slider"} type="range" bind:value {min} {max} {step} />
 	</div>
 </label>
