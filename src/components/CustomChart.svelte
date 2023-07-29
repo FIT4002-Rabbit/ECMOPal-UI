@@ -7,12 +7,12 @@
 
 	// project type imports
 	export let data: PredictionResults;
-	let chartTitle = "";
-	let chartProbability = ""
+	let chartTitle = '';
+	let chartProbability = '';
 
 	function drawChart(data: PredictionResults) {
-		chartTitle = "Survivability";
-		chartProbability = `${Number((data.out_value * 100).toFixed(2)) }%`
+		chartTitle = 'Survivability';
+		chartProbability = `${Number((data.out_value * 100).toFixed(2))}%`;
 		const labelColor = (value: number) => (value < 0 ? 'red' : 'steelblue');
 		// Create an array of indices for feature_names
 		const indices = Array.from({ length: data.feature_names.length }, (_, i) => i);
@@ -21,12 +21,13 @@
 		indices.sort((a, b) => data.feature_values[b] - data.feature_values[a]);
 
 		// Re-order feature_names based on the sorted indices
-		data.feature_names = indices.map((i) => `${data.feature_names[i]} ${Number((data.feature_values[i] * 100).toFixed(2)) }%`);
+		data.feature_names = indices.map(
+			(i) => `${data.feature_names[i]} ${Number((data.feature_values[i] * 100).toFixed(2))}%`
+		);
 		data.feature_values = indices.map((i) => data.feature_values[i]);
 
-
 		//multiplier is a magic number just setting what looks right currently
-		const maxLabelWidth = (d3.max(data.feature_names, (d) => d.length) ?? 150) * 5.5; 
+		const maxLabelWidth = (d3.max(data.feature_names, (d) => d.length) ?? 150) * 5.5;
 		const margin = { top: 10, right: 20, bottom: 10, left: maxLabelWidth * 10 };
 
 		const viewWidth = 500;
@@ -52,11 +53,7 @@
 			.nice();
 
 		// y
-		const y = d3
-			.scaleBand()
-			.range([0, height])
-			.domain(data.feature_names)
-			.padding(0.2);
+		const y = d3.scaleBand().range([0, height]).domain(data.feature_names).padding(0.2);
 
 		// bars
 		svg
@@ -70,11 +67,11 @@
 			.attr('height', 100)
 			.attr('fill', (d) => labelColor(d));
 
-
 		// y axis
 		const percentageRegex = /(-?\d+(\.\d+)?)%/;
 		svg
-			.append('g').call(d3.axisLeft(y))
+			.append('g')
+			.call(d3.axisLeft(y))
 			.selectAll('text')
 			.attr('class', 'text-8xl')
 			.html((d, i) => {
@@ -87,15 +84,18 @@
 				if (remainingLength > 0) {
 					prefixSpaces = '&nbsp;'.repeat(remainingLength);
 				}
-				const coloredPercentage = `<tspan style="font-family: 'Fira Code', monospace;" fill="${labelColor(parseFloat(percentageValue))}">${prefixSpaces}${percentageValue}</tspan>`;
+				const coloredPercentage = `<tspan style="font-family: 'Fira Code', monospace;" fill="${labelColor(
+					parseFloat(percentageValue)
+				)}">${prefixSpaces}${percentageValue}</tspan>`;
 				return label.replace(percentageRegex, coloredPercentage);
-				});
-			}
+			});
+	}
 
 	$: if (data) {
 		drawChart(data);
 	}
 </script>
+
 <h1 id="chart-title" class="text-1xl md:text-2xl text-center">{chartTitle}</h1>
 <h1 id="chart-probability" class="text-4xl md:text-6xl text-center">{chartProbability}</h1>
 <div id="chart" />
