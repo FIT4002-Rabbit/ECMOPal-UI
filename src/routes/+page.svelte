@@ -50,7 +50,6 @@
 	async function handleSubmit() {
 		const result = await queryModel();
 		predictionResults = JSON.parse(result);
-		console.log(predictionResults);
 		document.querySelector('#chart')?.scrollIntoView({
 			behavior: 'smooth'
 		});
@@ -58,7 +57,9 @@
 </script>
 
 <div class="mx-auto my-5 flex flex-wrap flex-row justify-center">
-	<p class="basis-full text-center">Please enter the following information regarding the patient</p>
+	<p class="w-5/6 md:w-2/3 text-center">
+		Please enter the following information regarding the patient
+	</p>
 
 	<!-- <BooleanRadioGroup
 		label="Chronic Lung Disease"
@@ -138,8 +139,8 @@
 	<div class="basis-full h-0" />
 
 	<button class="btn btn-primary w-32 m-1" on:click={handleSubmit}>Submit</button>
-</div>
-
-<div>
-	<CustomChart data={predictionResults} />
+	<div class="basis-full h-0" />
+	<div class="rounded bg-base-300 h-auto w-5/6 md:w-2/3 m-1 p-3">
+		<CustomChart data={predictionResults} />
+	</div>
 </div>
