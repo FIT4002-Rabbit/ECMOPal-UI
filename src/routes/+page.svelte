@@ -57,7 +57,9 @@
 </script>
 
 <div class="mx-auto my-5 flex flex-wrap flex-row justify-center">
-	<p class="w-5/6 md:w-2/3 text-center">Please enter the following information regarding the patient</p>
+	<p class="w-5/6 md:w-2/3 text-center">
+		Please enter the following information regarding the patient
+	</p>
 
 	<!-- <BooleanRadioGroup
 		label="Chronic Lung Disease"
@@ -142,4 +144,3 @@
 		<CustomChart data={predictionResults} />
 	</div>
 </div>
-

@@ -87,7 +87,9 @@
 			.attr('class', 'text-8xl')
 			.html((d, i) => {
 				const label = data.feature_names[i];
-				const percentageValue = (data.feature_values[i] * 100).toFixed(2).padStart(percentageLength, '\u2002');  // \u2002 is a unicode em space, the width of one character
+				const percentageValue = (data.feature_values[i] * 100)
+					.toFixed(2)
+					.padStart(percentageLength, '\u2002'); // \u2002 is a unicode em space, the width of one character
 				const percentageColor = labelColor(data.feature_values[i] * 100);
 				const coloredPercentage = `<tspan style="font-family: 'Fira Code', monospace;" fill="${percentageColor}">${percentageValue}</tspan>`;
 				return label + coloredPercentage;
