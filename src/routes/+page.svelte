@@ -9,6 +9,9 @@
 	import type { PredictionResults } from '../types/PredictionResults';
 	import HelpModal from '../components/HelpModal.svelte';
 
+	// json data imports
+	import helpModalText from '../data/helpModalText.json';
+
 	let predictionResults: PredictionResults;
 
 	let patientData: PatientData = {
@@ -112,42 +115,19 @@
 		bind:value={patientData.cardiac_arrest}
 	>
 		<HelpModal slot="help-modal">
-			Cardiac arrest is defined as any event(s) that require the use of cardiopulmonary
-			resuscitation (CPR) with the administration of external cardiac massage.
-			<br /><br />
-			Select 'Yes' or 'No depending on if the patient experienced a cardiac arrest within 24 hours prior
-			to commencement of the ECLS support.
-			<br />
-			Select 'Yes', if the patient received ECPR.
-			<br />
-			If this information is unknown or unavailable, keep the default value of 'No'.
-			<br /><br />
-			Note: Pre-ECMO cardiac arrest is greatly predictive in this model, as such it is highly advisable
-			to enter in a value if available.
+			{helpModalText['Cardiac Arrest'].join('\n')}
 		</HelpModal>
 	</BooleanRadioGroup>
 	<FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={patientData.bmi}>
 		<HelpModal slot="help-modal">
-			Body Mass Index (BMI) = persons body weight in kilograms divided by the square of height in
-			meters.
-			<br />
-			For pounds and inches, the BMI can be calculated by dividing weight in pounds by the square of
-			height in inches (in) and multiplying by a conversion factor of 703.
+			{helpModalText['BMI (kg/cm2)'].join('\n')}
 		</HelpModal>
 	</FormSlider>
 	<!-- <FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={patientData.ratebreathssec} /> -->
 	<!-- <FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={patientData.fio2} /> -->
 	<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={patientData.pao2}>
 		<HelpModal slot="help-modal">
-			The partial pressure of oxygen (PaO2) is based on an arterial blood gas drawn prior to, and no
-			more than 6 hours before, the ECLS start time.
-			<br />
-			If multiple arterial blood gases exist in this time period, choose the pre-ECLS blood gas closest
-			to AND before the ECLS start time.
-			<br /><br />
-			If this information is unknown or unavailable, keep the default value of 150 mmHg.
-			<br /><br />
-			A PaO2 between10 mmHg and 600 mmHg can be entered.
+			{helpModalText['PaO2 (mmHg)'].join('\n')}
 		</HelpModal>
 	</FormSlider>
 	<FormSlider
@@ -158,18 +138,7 @@
 		bind:value={patientData.sbp}
 	>
 		<HelpModal slot="help-modal">
-			Enter the systolic value of a single measurement of blood pressure taken no more than than 6
-			hours before the ECLS start time.
-			<br />
-			If an arterial blood pressure and non-invasive cuff pressure exist, please choose the arterial
-			pressure monitor reading.
-			<br /><br />
-			In the setting of cardiac arrest where no recordable blood pressure was obtained via invasive or
-			non-invasive means and the patient was pulseless, please select 0mmHg.
-			<br />
-			If this information is unknown or unavailable, keep the default value of 77 mmHg.
-			<br /><br />
-			A systolic pressure between 0 mmHg and 300 mmHg can be entered.
+			{helpModalText['Systolic Blood Pressure (mmHg)'].join('\n')}
 		</HelpModal>
 	</FormSlider>
 	<FormSlider
@@ -179,38 +148,17 @@
 		bind:value={patientData.intubation_time}
 	>
 		<HelpModal slot="help-modal">
-			Number of hours prior to commencement of ECLS where the patient had a newly placed artificial
-			airway.
-			<br />
-			Intubation refers to placement of an artificial airway, whether it is an oral endotracheal, nasotracheal
-			or tracheostomy tube.
-			<br /><br />
-			If a patient was intubated immediately prior to ECLS commencement, select '0' hours.
-			<br />
-			If a patient was intubated for more than 672 hours prior to ECLS (three months), select '672'.
-			<br /><br />
-			This value is required. Hours between 1 and 672 may be entered here.
+			{helpModalText['Intubation Time (Hours)'].join('\n')}
 		</HelpModal>
 	</FormSlider>
 	<FormSlider label="Age (Years)" min={0} max={81} bind:value={patientData.age_years}>
 		<HelpModal slot="help-modal">
-			The patient's age at the time that ECLS was established.
-			<br /><br />
-			If patient is older than 81 years, select '81' years.
-			<br /><br />
-			Ages between 18 and 81 years may be entered here.
+			{helpModalText['Age (Years)'].join('\n')}
 		</HelpModal>
 	</FormSlider>
 	<FormSlider label="Lactate (mmol/L)" min={0} max={40} step={1} bind:value={patientData.lactate}>
 		<HelpModal slot="help-modal">
-			Highest serum lactate concentration drawn in the 6 hours preceding ECLS.
-			<br />
-			Both arterial or venous lactate are acceptable.
-			<br /><br />
-			If this information is unknown or unavailable, keep the default value of 7.2 mmol/L.
-			<br /><br />
-			Note: Blood Lactate is greatly predictive in this model, as such it is highly advisable to enter
-			in a value if available.
+			{helpModalText['Lactate (mmol/L)'].join('\n')}
 		</HelpModal>
 	</FormSlider>
 	<!-- <BooleanRadioGroup
