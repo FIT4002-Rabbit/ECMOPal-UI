@@ -8,7 +8,7 @@
 		slider_range: 'range w-4/5 mx-2 my-auto'
 	};
 
-	let is_open: boolean = false;
+	let is_open = false;
 </script>
 
 <button class="bg-base-100 rounded-sm w-6" on:click={() => (is_open = true)}>?</button>
@@ -20,7 +20,7 @@
 	>
 		<!-- Content box for modal -->
 		<div
-			on:mousedown|stopPropagation={() => {}}
+			on:mousedown|stopPropagation={() => undefined}
 			class="relative w-2/3 lg:w-1/2 m-auto p-10 bg-base-100 rounded-md text-left"
 		>
 			<button
