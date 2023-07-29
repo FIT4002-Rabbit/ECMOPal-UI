@@ -137,8 +137,9 @@
 	<div class="basis-full h-0" />
 
 	<button class="btn btn-primary w-32 m-1" on:click={handleSubmit}>Submit</button>
+	<div class="basis-full h-0" />
+	<div class="rounded bg-base-300 h-auto w-5/6 md:w-2/3 m-1 p-3">
+		<CustomChart data={predictionResults} />
+	</div>
 </div>
 
-<div>
-	<CustomChart data={predictionResults} />
-</div>
