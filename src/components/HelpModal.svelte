@@ -26,3 +26,12 @@
 		</div>
 	</div>
 {/if}
+
+<!-- Let escape close the modal -->
+<svelte:window
+	on:keydown={(e) => {
+		if (e.key === 'Escape') {
+			is_open = false;
+		}
+	}}
+/>
