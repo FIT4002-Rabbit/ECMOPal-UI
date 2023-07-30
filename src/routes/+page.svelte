@@ -7,6 +7,10 @@
 	// project type imports
 	import type { PatientData } from '../types/PatientData';
 	import type { PredictionResults } from '../types/PredictionResults';
+	import HelpModal from '../components/HelpModal.svelte';
+
+	// json data imports
+	import helpModalText from '../data/helpModalText.json';
 
 	let predictionResults: PredictionResults;
 
@@ -24,7 +28,7 @@
 		// hco3: 19,
 		// acute_kidney_injury: 0,
 		// renal_replacement_therapy: 0,
-		cardiac_arrest: 1,
+		cardiac_arrest: 0,
 		bmi: 28,
 		// ratebreathssec: 12,
 		// fio2: 100,
@@ -32,7 +36,7 @@
 		sbp: 77,
 		intubation_time: 10,
 		age_years: 80,
-		lactate: 7
+		lactate: 7.2
 		// pulmonary_embolism: 1
 	};
 
@@ -109,26 +113,54 @@
 		label="Cardiac Arrest"
 		name="cardiacArrest"
 		bind:value={patientData.cardiac_arrest}
-	/>
-	<FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={patientData.bmi} />
+	>
+		<HelpModal slot="help-modal">
+			{helpModalText['Cardiac Arrest'].join('\n')}
+		</HelpModal>
+	</BooleanRadioGroup>
+	<FormSlider label="BMI (kg/cm2)" min={10} max={85} bind:value={patientData.bmi}>
+		<HelpModal slot="help-modal">
+			{helpModalText['BMI (kg/cm2)'].join('\n')}
+		</HelpModal>
+	</FormSlider>
 	<!-- <FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={patientData.ratebreathssec} /> -->
 	<!-- <FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={patientData.fio2} /> -->
-	<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={patientData.pao2} />
+	<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={patientData.pao2}>
+		<HelpModal slot="help-modal">
+			{helpModalText['PaO2 (mmHg)'].join('\n')}
+		</HelpModal>
+	</FormSlider>
 	<FormSlider
 		label="Systolic Blood Pressure (mmHg)"
 		min={0}
 		max={300}
 		step={10}
 		bind:value={patientData.sbp}
-	/>
+	>
+		<HelpModal slot="help-modal">
+			{helpModalText['Systolic Blood Pressure (mmHg)'].join('\n')}
+		</HelpModal>
+	</FormSlider>
 	<FormSlider
 		label="Intubation Time (Hours)"
-		min={1}
+		min={0}
 		max={672}
 		bind:value={patientData.intubation_time}
-	/>
-	<FormSlider label="Age (Years)" min={0} max={81} bind:value={patientData.age_years} />
-	<FormSlider label="Lactate (mmol/L)" min={0} max={40} step={1} bind:value={patientData.lactate} />
+	>
+		<HelpModal slot="help-modal">
+			{helpModalText['Intubation Time (Hours)'].join('\n')}
+		</HelpModal>
+	</FormSlider>
+	<FormSlider label="Age (Years)" min={0} max={81} bind:value={patientData.age_years}>
+		<HelpModal slot="help-modal">
+			{helpModalText['Age (Years)'].join('\n')}
+		</HelpModal>
+	</FormSlider>
+	<FormSlider label="Lactate (mmol/L)" min={0} max={40} step={1} bind:value={patientData.lactate}>
+		<HelpModal slot="help-modal">
+			{helpModalText['Lactate (mmol/L)'].join('\n')}
+		</HelpModal>
+	</FormSlider>
 	<!-- <BooleanRadioGroup
 		label="Pulmonary Embolism"
 		name="pulmonaryEmbolism"

@@ -12,8 +12,11 @@
 	};
 </script>
 
-<label class={css.input_group}>
-	<span class={css.input_text}>{label}</span>
+<div class={css.input_group}>
+	<span class={css.input_text}>
+		{label}
+		<slot name="help-modal" />
+	</span>
 	<div class={css.btn_group}>
 		<input
 			class={css.boolean_button}
@@ -32,4 +35,4 @@
 			on:change={() => (value = 0)}
 		/>
 	</div>
-</label>
+</div>
