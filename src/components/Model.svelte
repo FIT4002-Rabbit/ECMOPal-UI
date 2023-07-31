@@ -64,7 +64,7 @@
 </script>
 
 <div class="mx-auto my-5 flex flex-wrap flex-row justify-center">
-	<p class="w-5/6 md:w-2/3 text-center">
+	<p class="w-full md:w-2/3 text-center">
 		Please enter the following information regarding the patient
 	</p>
 
@@ -108,7 +108,7 @@
 
 	<div class="basis-full h-0" />
 	{#if error}
-		<div class="h-auto w-5/6 md:w-2/3 m-1">
+		<div class="h-auto w-full md:w-2/3 m-1">
 			<ErrorMessage>{error}</ErrorMessage>
 		</div>
 	{/if}

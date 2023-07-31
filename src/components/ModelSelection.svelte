@@ -66,7 +66,7 @@
 		{#if loading}
 			<span class="loading loading-infinity loading-lg" />
 		{:else if error}
-			<div class="h-auto w-5/6 md:w-2/3 m-1">
+			<div class="h-auto w-full md:w-2/3 m-1">
 				<ErrorMessage>{error}</ErrorMessage>
 			</div>
 		{:else if model}

@@ -22,16 +22,19 @@
 </script>
 
 {#if data}
-	<div class="rounded bg-base-300 h-auto w-5/6 md:w-2/3 m-1 p-3">
+	<div class="rounded bg-base-300 h-auto w-full md:w-2/3 m-1 p-3">
 		<h1 id="chart-title" class="text-1xl md:text-2xl text-center">Survivability</h1>
 		<h1 id="chart-probability" class="text-4xl md:text-6xl text-center mb-2">
 			{(data.out_value * 100).toFixed(2)}%
 		</h1>
 
-		<div class="grid w-full gap-y-2" style="grid-template-columns: min-content min-content 1fr 1fr">
+		<div
+			class="grid w-full gap-y-2"
+			style="grid-template-columns: minmax(min-content, max-content) min-content minmax(20%, 1fr) minmax(20%, 1fr); grid-auto-rows: 1fr"
+		>
 			{#each results as { label, value, scaledValue }}
-				<div class="whitespace-nowrap pe-2">{label}</div>
-				<div class="pe-2" class:text-success={value >= 0} class:text-error={value < 0}>
+				<div class="pe-2">{label}</div>
+				<div class="pe-2 self-center" class:text-success={value >= 0} class:text-error={value < 0}>
 					{value.toFixed(2)}
 				</div>
 				<div>

@@ -7,7 +7,7 @@
 
 	let css = {
 		input_group:
-			'flex flex-wrap flex-row justify-between rounded bg-base-300 h-16 w-5/6 md:w-2/3 lg:w-1/3 m-1 p-1',
+			'flex flex-wrap flex-row justify-between rounded bg-base-300 h-16 w-full md:w-2/3 lg:w-1/3 m-1 p-1',
 		input_text: 'text-center my-auto basis-full md:basis-1/2',
 		slider_group: 'btn-group basis-full md:basis-1/2',
 		slider_input: 'w-1/5 rounded text-center',
