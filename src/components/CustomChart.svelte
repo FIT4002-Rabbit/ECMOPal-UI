@@ -4,11 +4,22 @@
 
 	// project component imports
 	import type { PredictionResults } from '../types';
+	import mapping from '../data/featureMapping';
 
 	// project type imports
 	export let data: PredictionResults | undefined;
 	let chartTitle = 'Survivability';
 	let chartProbability = '-.-%';
+
+	let results;
+	$: results =
+		data?.feature_names
+			.map((name, i) => ({
+				name,
+				label: mapping[name].label ?? name,
+				value: ((data?.feature_values?.[i] ?? 0) * 100).toFixed(2)
+			}))
+			.sort((a, b) => Math.abs(b.value) - Math.abs(a.value)) ?? [];
 
 	// Used to calculate the width of the text for the svg margins
 	function getTextWidth(txt: string, fontname: string): number {
@@ -103,4 +114,24 @@
 
 <h1 id="chart-title" class="text-1xl md:text-2xl text-center">{chartTitle}</h1>
 <h1 id="chart-probability" class="text-4xl md:text-6xl text-center">{chartProbability}</h1>
+{#if data}
+	<table class="w-full">
+		{#each results as { label, value }}
+			<tr class="h-full">
+				<td class="pe-2">{label}</td>
+				<td class="pe-2" class:text-success={value >= 0} class:text-error={value < 0}>{value}</td>
+				<td class="h-full">
+					{#if value < 0}
+						<div style="width: {Math.abs(value)}px;" class="bg-error h-full ms-auto" />
+					{/if}
+				</td>
+				<td class="h-full">
+					{#if value >= 0}
+						<div style="width: {value}px;" class="bg-success h-full me-auto" />
+					{/if}
+				</td></tr
+			>
+		{/each}
+	</table>
+{/if}
 <div id="chart" />

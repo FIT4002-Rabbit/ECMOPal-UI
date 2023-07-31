@@ -9,9 +9,9 @@ export type FeatureType = { name: string; description: string } & MappingType;
 
 export type PatientDataType = Record<string, number>;
 
-export interface PredictionResults {
+export type PredictionResults = {
 	base_value: number;
 	feature_names: string[];
 	feature_values: number[];
 	out_value: number;
-}
+};
