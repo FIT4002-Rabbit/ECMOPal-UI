@@ -6,7 +6,7 @@
 	import type { PredictionResults } from '../types';
 
 	// project type imports
-	export let data: PredictionResults;
+	export let data: PredictionResults | undefined;
 	let chartTitle = 'Survivability';
 	let chartProbability = '-.-%';
 

@@ -7,7 +7,7 @@
 
 	import helpModalText from '../data/helpModalText';
 	import featureMapping from '../data/featureMapping';
-	import Error from './Error.svelte';
+	import ErrorMessage from './ErrorMessage.svelte';
 
 	let loading = true;
 	let error: string | undefined;
@@ -40,7 +40,7 @@
 			if (err instanceof Error) {
 				error = err.message;
 			} else {
-				error = 'Failed to calculate survivability';
+				error = 'Failed to load models';
 			}
 		}
 
@@ -67,7 +67,7 @@
 			<span class="loading loading-infinity loading-lg" />
 		{:else if error}
 			<div class="h-auto w-5/6 md:w-2/3 m-1">
-				<Error>{error}</Error>
+				<ErrorMessage>{error}</ErrorMessage>
 			</div>
 		{:else if model}
 			<Model {model} {features} {patientData} />

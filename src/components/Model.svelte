@@ -11,10 +11,12 @@
 
 	// project type imports
 	import HelpModal from '../components/HelpModal.svelte';
-	import Error from './Error.svelte';
+	import ErrorMessage from './ErrorMessage.svelte';
+	import mapping, { REQUIRED_FIELDS } from '../data/featureMapping';
 
-	let predictionResults: PredictionResults;
+	let predictionResults: PredictionResults | undefined;
 	let error: string | undefined;
+
 	let loading = false;
 
 	async function queryModel() {
@@ -37,6 +39,14 @@
 		loading = true;
 
 		try {
+			for (const field of REQUIRED_FIELDS) {
+				if (!patientData[field]) {
+					throw new Error(
+						`${REQUIRED_FIELDS.map((field) => mapping[field].label).join(', ')} can not be zero`
+					);
+				}
+			}
+
 			predictionResults = await queryModel();
 			document.querySelector('#chart')?.scrollIntoView({
 				behavior: 'smooth'
@@ -99,7 +109,7 @@
 	<div class="basis-full h-0" />
 	{#if error}
 		<div class="h-auto w-5/6 md:w-2/3 m-1">
-			<Error>{error}</Error>
+			<ErrorMessage>{error}</ErrorMessage>
 		</div>
 	{/if}
 	<div class="rounded bg-base-300 h-auto w-5/6 md:w-2/3 m-1 p-3">
