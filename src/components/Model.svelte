@@ -1,49 +1,34 @@
 <script lang="ts">
-	import type { ModelType } from '../types';
+	import type { ModelType, PredictionResults } from '../types';
 	export let model: ModelType;
+
 	// project component imports
 	import BooleanRadioGroup from '../components/BooleanRadioGroup.svelte';
 	import FormSlider from '../components/FormSlider.svelte';
 	import CustomChart from '../components/CustomChart.svelte';
 
 	// project type imports
-	import type { PatientData } from '../types/PatientData';
-	import type { PredictionResults } from '../types/PredictionResults';
 	import HelpModal from '../components/HelpModal.svelte';
 
 	// json data imports
-	import helpModalText from '../data/helpModalText.json';
+	import helpModalText from '../data/helpModalText';
+	import feature_mapping, { type MappingType } from '../data/featureMapping';
+
+	let features: ({ name: string; description: string } & MappingType)[];
+	$: features = model.features.map((feature) => ({
+		name: feature,
+		...feature_mapping[feature],
+		description: helpModalText[feature]?.join('\n')
+	}));
+	$: console.log(features);
+	let patientData: Record<string, number>;
+	$: patientData = Object.fromEntries(features.map((feature) => [feature.name, feature.default]));
+	$: console.log(features, patientData);
 
 	let predictionResults: PredictionResults;
 
-	let patientData: PatientData = {
-		year: 0,
-		// chronic_lung_disease: 0,
-		// chronic_heart_failure: 0,
-		// coronary_artery_disease: 0,
-		// lung_transplant: 0,
-		// vasopressors_inotropes: 1,
-		// cardiothoracic_surgery: 0,
-		// ph: 7.27,
-		// bicarbonate_infusion: 0,
-		// pco2: 47,
-		// hco3: 19,
-		// acute_kidney_injury: 0,
-		// renal_replacement_therapy: 0,
-		cardiac_arrest: 0,
-		bmi: 28,
-		// ratebreathssec: 12,
-		// fio2: 100,
-		pao2: 150,
-		sbp: 77,
-		intubation_time: 10,
-		age_years: 80,
-		lactate: 7.2
-		// pulmonary_embolism: 1
-	};
-
 	async function queryModel() {
-		let body = { model_name: 'lite', variables: patientData };
+		let body = { model_name: model.name, variables: patientData };
 		const res = await fetch('http://127.0.0.1:5000/evaluate', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -66,6 +51,36 @@
 	<p class="w-5/6 md:w-2/3 text-center">
 		Please enter the following information regarding the patient
 	</p>
+
+	{#each features as feature}
+		{#if feature.type === 'boolean'}
+			<BooleanRadioGroup
+				label={feature.label ?? feature.name}
+				name={feature.name}
+				bind:value={patientData[feature.name]}
+			>
+				{#if feature.description}
+					<HelpModal>
+						{feature.description}
+					</HelpModal>
+				{/if}
+			</BooleanRadioGroup>
+		{:else if feature.type === 'slider'}
+			<FormSlider
+				label={feature.name}
+				bind:value={patientData[feature.name]}
+				min={feature.min}
+				max={feature.max}
+				step={feature.step}
+			>
+				{#if feature.description}
+					<HelpModal>
+						{feature.description}
+					</HelpModal>
+				{/if}
+			</FormSlider>
+		{/if}
+	{/each}
 
 	<!-- <BooleanRadioGroup
 		label="Chronic Lung Disease"
@@ -111,7 +126,7 @@
 		name="renalReplacementTherapy"
 		bind:value={patientData.renal_replacement_therapy}
 	/> -->
-	<BooleanRadioGroup
+	<!-- <BooleanRadioGroup
 		label="Cardiac Arrest"
 		name="cardiacArrest"
 		bind:value={patientData.cardiac_arrest}
@@ -124,10 +139,10 @@
 		<HelpModal slot="help-modal">
 			{helpModalText['BMI (kg/cm2)'].join('\n')}
 		</HelpModal>
-	</FormSlider>
+	</FormSlider> -->
 	<!-- <FormSlider label="Breathing Rate (/min)" min={0} max={60} step={2} bind:value={patientData.ratebreathssec} /> -->
 	<!-- <FormSlider label="FiO2 (%)" min={0} max={100} step={5} bind:value={patientData.fio2} /> -->
-	<FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={patientData.pao2}>
+	<!-- <FormSlider label="PaO2 (mmHg)" min={0} max={600} step={5} bind:value={patientData.pao2}>
 		<HelpModal slot="help-modal">
 			{helpModalText['PaO2 (mmHg)'].join('\n')}
 		</HelpModal>
@@ -162,7 +177,7 @@
 		<HelpModal slot="help-modal">
 			{helpModalText['Lactate (mmol/L)'].join('\n')}
 		</HelpModal>
-	</FormSlider>
+	</FormSlider> -->
 	<!-- <BooleanRadioGroup
 		label="Pulmonary Embolism"
 		name="pulmonaryEmbolism"

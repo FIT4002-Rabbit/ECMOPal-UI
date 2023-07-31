@@ -1,5 +1,5 @@
 <script>
-	import ModelTabs from '../components/ModelTabs.svelte';
+	import ModelSelection from '../components/ModelSelection.svelte';
 </script>
 
-<ModelTabs />
+<ModelSelection />

@@ -18,7 +18,7 @@
 <div class={css.input_group}>
 	<span class={css.input_text}>
 		{label}
-		<slot name="help-modal" />
+		<slot />
 	</span>
 	<div class={css.slider_group}>
 		<input class={css.slider_input} type="number" bind:value {min} {max} {step} />
