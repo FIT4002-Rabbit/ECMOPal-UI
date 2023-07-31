@@ -41,8 +41,8 @@
 	};
 
 	async function queryModel() {
-		let body = patientData;
-		const res = await fetch('http://127.0.0.1:5000/predict', {
+		let body = { model_name: 'lite', variables: patientData };
+		const res = await fetch('http://127.0.0.1:5000/evaluate', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
 			body: JSON.stringify(body)

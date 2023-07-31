@@ -1,31 +1,63 @@
 <!-- svelte-ignore-all a11y-missing-attribute -->
-<script>
+<script lang="ts">
+	import { active, mode } from 'd3';
 	import '../app.css';
 	import ThemeToggle from '../components/ThemeToggle.svelte';
+	import { onMount } from 'svelte';
+
+	type Model = { name: string; features: string[] };
+
+	let loading = true;
+	let models: Model[] = [];
+	let activeModel = 'Lite';
+	let model: Model | undefined;
+	$: model = models.find((model) => model.name === activeModel);
+
+	onMount(async () => {
+		const res = await fetch('http://127.0.0.1:5000/models');
+		models = await res.json();
+		loading = false;
+	});
 </script>
 
 <svelte:head>
 	<title>ECMO PAL Lite</title>
 </svelte:head>
 
-<div class="flex flex-col h-100 min-h-screen">
-	<header class="flex flex-wrap justify-between p-3 md:p-10 bg-base-200">
-		<div>
-			<h1 class="text-4xl md:text-6xl"><b>ECMO PAL</b> Lite</h1>
-			<p class="text-xs">
-				Extracorporeal membrane oxygenation survivability predictor, lite version
-			</p>
+<div class="bg-base-200 flex flex-col h-100 min-h-screen">
+	<header>
+		<div class="flex flex-wrap justify-between p-3 md:p-10">
+			<div>
+				<h1 class="text-4xl md:text-6xl"><b>ECMO</b> PAL</h1>
+				<p class="text-s">Extracorporeal membrane oxygenation survivability predictor</p>
+			</div>
+			<div class="my-auto p-1">
+				<ThemeToggle />
+			</div>
 		</div>
-		<div class="my-auto p-1">
-			<ThemeToggle />
+		<div class="tabs">
+			{#each models as { name }}
+				<button
+					class="tab tab-lg tab-lifted"
+					class:tab-active={name == activeModel}
+					on:click={() => (activeModel = name)}>{name}</button
+				>
+			{/each}
+			<div class="tab tab-lg tab-lifted flex-1 cursor-default" />
 		</div>
 	</header>
 
-	<div class="flex-1">
-		<slot />
+	<div class={`flex-1 bg-base-100 ${loading ? 'flex items-center justify-center' : ''}`}>
+		{#if loading}
+			<span class="loading loading-infinity loading-lg" />
+		{:else}
+			<div class="h-100">
+				<slot features={model?.features} />
+			</div>
+		{/if}
 	</div>
 
-	<footer class="footer p-10 bg-base-200">
+	<footer class="footer p-10">
 		<div>
 			<svg
 				width="50"
