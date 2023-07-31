@@ -112,7 +112,6 @@
 			<ErrorMessage>{error}</ErrorMessage>
 		</div>
 	{/if}
-	<div class="rounded bg-base-300 h-auto w-5/6 md:w-2/3 m-1 p-3">
-		<CustomChart data={predictionResults} />
-	</div>
+
+	<CustomChart data={predictionResults} />
 </div>
