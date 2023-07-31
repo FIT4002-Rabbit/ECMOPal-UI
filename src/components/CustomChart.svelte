@@ -3,7 +3,7 @@
 	import * as d3 from 'd3';
 
 	// project component imports
-	import type { PredictionResults } from '../types/PredictionResults';
+	import type { PredictionResults } from '../types';
 
 	// project type imports
 	export let data: PredictionResults;

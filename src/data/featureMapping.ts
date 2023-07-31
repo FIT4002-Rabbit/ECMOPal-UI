@@ -1,6 +1,4 @@
-export type MappingType =
-	| { type: 'boolean'; default: number; label?: string }
-	| { type: 'slider'; min: number; max: number; default: number; step: number; label?: string };
+import type { MappingType } from '../types';
 
 const mapping: Record<string, MappingType> = {
 	Year: { label: 'ECMO Year', type: 'slider', min: 0, max: 1, step: 0.1, default: 0 },
