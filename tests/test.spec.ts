@@ -66,3 +66,15 @@ test('Check slider min and max values', async ({ page }) => {
 
   await expect(slider).toHaveValue("1");
 });
+
+test('Text fields limited to numeric inputs', async ({ page }) => {
+  await page.goto('/');
+
+  const input_box = page.getByTestId("Intubation Time (Hours) number");
+
+  await input_box.fill("52");
+
+  await expect(input_box).toHaveValue("52");
+
+  await expect(input_box).toHaveAttribute("type", "number");
+});
