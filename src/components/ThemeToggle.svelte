@@ -6,7 +6,7 @@
 
 	const THEMES = {
 		DARK: 'dark',
-		LIGHT: 'pastel'
+		LIGHT: 'light'
 	};
 
 	let currentTheme = THEMES.DARK;
