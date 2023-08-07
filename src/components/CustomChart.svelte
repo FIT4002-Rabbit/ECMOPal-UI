@@ -21,6 +21,12 @@
 			.sort((a, b) => Math.abs(b.value) - Math.abs(a.value)) ?? [];
 </script>
 
+<style>
+	.grid-cols {
+		grid-template-columns: minmax(min-content, max-content) min-content minmax(20%, 1fr) minmax(20%, 1fr);
+	}
+</style>
+
 {#if data}
 	<div class="rounded bg-base-300 h-auto w-full md:w-2/3 m-1 p-3">
 		<h1 id="chart-title" class="text-1xl md:text-2xl text-center">Survivability</h1>
@@ -29,8 +35,7 @@
 		</h1>
 
 		<div
-			class="grid w-full gap-y-2"
-			style="grid-template-columns: minmax(min-content, max-content) min-content minmax(20%, 1fr) minmax(20%, 1fr); grid-auto-rows: 1fr"
+			class="grid auto-rows-fr grid-cols w-full gap-y-2"
 		>
 			{#each results as { label, value, scaledValue }}
 				<div class="pe-2">{label}</div>
