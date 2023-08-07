@@ -4,7 +4,7 @@
 	let is_open = false;
 </script>
 
-<button class="bg-base-100 rounded-sm w-6" on:click={() => (is_open = true)}>?</button>
+<button class="bg-info rounded-lg w-6 m-1" on:click={() => (is_open = true)}>?</button>
 {#if is_open === true}
 	<!-- Black background that blocks interaction, disable warning since the mousedown handler is to click out of an interaction environment -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -20,7 +20,7 @@
 			class="relative w-2/3 lg:w-1/2 m-auto p-10 bg-base-100 rounded-md text-left whitespace-pre-line"
 		>
 			<button
-				class="absolute top-0 right-0 w-8 h-8 m-2 rounded-sm bg-base-300"
+				class="absolute top-0 right-0 w-8 h-8 m-2 rounded-sm bg-base-200"
 				on:click={() => (is_open = false)}>X</button
 			>
 			<slot />
