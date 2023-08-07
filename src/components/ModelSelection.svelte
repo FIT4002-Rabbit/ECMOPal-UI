@@ -77,7 +77,9 @@
 				<ErrorMessage>No Model selected.</ErrorMessage>
 			</div>
 		{:else if model}
-			<Model {model} {features} {patientData} />
+			{#key model.name}
+				<Model {model} {features} {patientData} />
+			{/key}
 		{/if}
 	</div>
 </Layout>

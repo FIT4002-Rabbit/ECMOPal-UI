@@ -113,6 +113,6 @@
 			<ErrorMessage>{error}</ErrorMessage>
 		</div>
 	{/if}
-
+	
 	<CustomChart data={predictionResults} />
 </div>
