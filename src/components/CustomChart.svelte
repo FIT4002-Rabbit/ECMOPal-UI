@@ -34,7 +34,7 @@
 		>
 			{#each results as { label, value, scaledValue }}
 				<div class="pe-2">{label}</div>
-				<div class="pe-2 self-center" class:text-success={value >= 0} class:text-error={value < 0}>
+				<div class="pe-2 self-center text-right" class:text-success={value >= 0} class:text-error={value < 0}>
 					{value.toFixed(2)}%
 				</div>
 				<div>
