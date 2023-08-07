@@ -61,7 +61,7 @@
 		<div class="tab tab-lg tab-lifted flex-1 cursor-default" />
 	</div>
 	<div
-		class={`flex-1 bg-base-100 ${loading || error ? 'flex items-center justify-center' : ''}`}
+		class={`flex-1 bg-base-100 ${model === undefined ? 'flex items-center justify-center' : ''}`}
 		slot="content"
 	>
 		{#if loading}
@@ -69,6 +69,10 @@
 		{:else if error}
 			<div class="h-auto w-full md:w-2/3 m-1">
 				<ErrorMessage>{error}</ErrorMessage>
+			</div>
+		{:else if model === undefined}
+			<div class="h-auto w-full md:w-2/3 m-1">
+				<ErrorMessage>No Model selected.</ErrorMessage>
 			</div>
 		{:else if model}
 			<Model {model} {features} {patientData} />
