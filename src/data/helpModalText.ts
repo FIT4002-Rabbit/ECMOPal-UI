@@ -12,7 +12,7 @@ const helpModelText: Record<string, string[]> = {
 		'Body Mass Index (BMI) = persons body weight in kilograms divided by the square of height inmeters.',
 		'For pounds and inches, the BMI can be calculated by dividing weight in pounds by the square of height in inches (in) and multiplying by a conversion factor of 703.'
 	],
-	PaO2: [
+	PO2: [
 		'The partial pressure of oxygen (PaO2) is based on an arterial blood gas drawn prior to, and no more than 6 hours before, the ECLS start time.',
 		'If multiple arterial blood gases exist in this time period, choose the pre-ECLS blood gas closest to AND before the ECLS start time.',
 		'',
