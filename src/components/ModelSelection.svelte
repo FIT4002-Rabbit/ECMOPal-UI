@@ -50,15 +50,14 @@
 </script>
 
 <Layout>
-	<div class="tabs" slot="header">
+	<div class="tabs justify-center" slot="header">
 		{#each models as { name }}
 			<button
-				class="tab tab-lg tab-lifted"
+				class="tab tab-lg tab-lifted w-1/2 md:w-1/3 lg:w-1/6"
 				class:tab-active={name == activeModel}
 				on:click={() => (activeModel = name)}>{name}</button
 			>
 		{/each}
-		<div class="tab tab-lg tab-lifted flex-1 cursor-default" />
 	</div>
 	<div
 		class={`flex-1 bg-base-100 ${model === undefined ? 'flex items-center justify-center' : ''}`}
