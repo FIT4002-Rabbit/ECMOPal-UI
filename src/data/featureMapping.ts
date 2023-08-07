@@ -8,7 +8,7 @@ const mapping: Record<string, MappingType> = {
 	'PE ECLS Ltx': { label: 'Pre-ECMO Lung Transplant', type: 'boolean', default: 0 },
 	'Vasopressors/Inotropes': { type: 'boolean', default: 1 },
 	'Pre ECMo C/T Surg': { label: 'Pre-ECMO Cardiothoracic Surgery', type: 'boolean', default: 0 },
-	pH: { type: 'slider', min: 6, max: 8, step: 0.1, default: 7.2 },
+	pH: { type: 'slider', min: 6, max: 8, step: 0.1, default: 7.27 },
 	Bicarbonate: { label: 'Pre-ECMO Bicarbonate Infusion', type: 'boolean', default: 0 },
 	PCO2: { label: 'PaCO₂ (mmHg)', type: 'slider', min: 15, max: 200, step: 1, default: 47 },
 	HCO3: { label: 'HCO₃ (mmol/L)', type: 'slider', min: 1, max: 70, step: 1, default: 19 },
