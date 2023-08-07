@@ -4,19 +4,22 @@
 	import { onMount } from 'svelte';
 	import type { FeatureType, ModelType, PatientDataType } from '../types';
 	import Model from './Model.svelte';
+	import { page } from "$app/stores";
 
 	import helpModalText from '../data/helpModalText';
 	import featureMapping from '../data/featureMapping';
 	import ErrorMessage from './ErrorMessage.svelte';
 	import { PUBLIC_BACKEND } from '$env/static/public';
+	import { goto } from '$app/navigation';
 
 	let loading = true;
 	let error: string | undefined;
 	let models: ModelType[] = [];
-	let activeModel = 'Lite';
+	let activeModel = $page.url.hash?.slice(1) ?? 'Lite';
 
 	let model: ModelType | undefined;
 	$: model = models.find((model) => model.name === activeModel);
+	$: if (model) goto(`#${model.name}`);
 
 	let features: FeatureType[];
 	$: features =
