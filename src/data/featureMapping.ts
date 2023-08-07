@@ -43,7 +43,7 @@ const mapping: Record<string, MappingType> = {
 		default: 0
 	},
 	AgeYears: { label: 'Age (years)', type: 'slider', min: 0, max: 81, step: 1, default: 0 },
-	Lactate: { label: 'Lactate (mmol/L)', type: 'slider', min: 0, max: 40, step: 1, default: 0 },
+	Lactate: { label: 'Lactate (mmol/L)', type: 'slider', min: 0, max: 40, step: 1, default: 7.2 },
 	'Pulmonary Embolism': { type: 'boolean', default: 0 }
 };
 
