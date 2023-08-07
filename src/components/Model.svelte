@@ -13,6 +13,7 @@
 	import HelpModal from '../components/HelpModal.svelte';
 	import ErrorMessage from './ErrorMessage.svelte';
 	import mapping, { REQUIRED_FIELDS } from '../data/featureMapping';
+	import { PUBLIC_BACKEND } from '$env/static/public';
 
 	let predictionResults: PredictionResults | undefined;
 	let error: string | undefined;
@@ -21,7 +22,7 @@
 
 	async function queryModel() {
 		let body = { model_name: model.name, variables: patientData };
-		const res = await fetch('http://127.0.0.1:5000/evaluate', {
+		const res = await fetch(PUBLIC_BACKEND + '/evaluate', {
 			method: 'POST',
 			headers: new Headers({ 'Content-Type': 'application/json' }),
 			body: JSON.stringify(body)

@@ -8,6 +8,7 @@
 	import helpModalText from '../data/helpModalText';
 	import featureMapping from '../data/featureMapping';
 	import ErrorMessage from './ErrorMessage.svelte';
+	import { PUBLIC_BACKEND } from '$env/static/public';
 
 	let loading = true;
 	let error: string | undefined;
@@ -30,7 +31,7 @@
 
 	onMount(async () => {
 		try {
-			const res = await fetch('http://127.0.0.1:5000/models');
+			const res = await fetch(PUBLIC_BACKEND + '/models');
 			const json = await res.json();
 			if (!res.ok) {
 				throw new Error(json.error);
