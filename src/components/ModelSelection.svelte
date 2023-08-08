@@ -16,6 +16,7 @@
 	let error: string | undefined;
 	let models: ModelType[] = [];
 	let activeModel = $page.url.hash?.slice(1) ?? 'Lite';
+	$: if (models.length > 0 && !models.find((model) => model.name === activeModel)) activeModel = models[0].name;
 
 	let model: ModelType | undefined;
 	$: model = models.find((model) => model.name === activeModel);
