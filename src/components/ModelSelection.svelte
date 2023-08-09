@@ -2,12 +2,10 @@
 <script lang="ts">
 	import Layout from './Layout.svelte';
 	import { onMount } from 'svelte';
-	import type { FeatureType, ModelType, PatientDataType } from '../types';
+	import type { ModelType, PatientDataType } from '../types';
 	import Model from './Model.svelte';
-	import { page } from "$app/stores";
+	import { page } from '$app/stores';
 
-	import helpModalText from '../data/helpModalText';
-	import featureMapping from '../data/featureMapping';
 	import ErrorMessage from './ErrorMessage.svelte';
 	import { PUBLIC_BACKEND } from '$env/static/public';
 	import { goto } from '$app/navigation';
@@ -16,22 +14,18 @@
 	let error: string | undefined;
 	let models: ModelType[] = [];
 	let activeModel = $page.url.hash?.slice(1) ?? 'Lite';
-	$: if (models.length > 0 && !models.find((model) => model.name === activeModel)) activeModel = models[0].name;
+	$: if (models.length > 0 && !models.find((model) => model.name === activeModel)) {
+		activeModel = models[0].name;
+	}
 
 	let model: ModelType | undefined;
 	$: model = models.find((model) => model.name === activeModel);
 	$: if (model) goto(`#${model.name}`);
 
-	let features: FeatureType[];
-	$: features =
-		model?.features.map((feature) => ({
-			name: feature,
-			...featureMapping[feature],
-			description: helpModalText[feature]?.join('\n')
-		})) ?? [];
-
 	let patientData: PatientDataType;
-	$: patientData = Object.fromEntries(features.map((feature) => [feature.name, feature.default]));
+	$: patientData = Object.fromEntries(
+		model?.features?.map((feature) => [feature.name, feature.default]) ?? []
+	);
 
 	onMount(async () => {
 		try {
@@ -75,7 +69,7 @@
 			</div>
 		{:else if model}
 			{#key model.name}
-				<Model {model} {features} {patientData} />
+				<Model {model} {patientData} />
 			{/key}
 		{/if}
 	</div>

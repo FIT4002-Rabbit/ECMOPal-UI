@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { FeatureType, ModelType, PatientDataType, PredictionResults } from '../types';
+	import type { ModelType, PatientDataType, PredictionResults } from '../types';
 	export let model: ModelType;
-	export let features: FeatureType[];
 	export let patientData: PatientDataType;
 
 	// project component imports
@@ -12,7 +11,6 @@
 	// project type imports
 	import HelpModal from '../components/HelpModal.svelte';
 	import ErrorMessage from './ErrorMessage.svelte';
-	import mapping, { REQUIRED_FIELDS } from '../data/featureMapping';
 	import { PUBLIC_BACKEND } from '$env/static/public';
 
 	let predictionResults: PredictionResults | undefined;
@@ -40,12 +38,13 @@
 		loading = true;
 
 		try {
-			for (const field of REQUIRED_FIELDS) {
-				if (!patientData[field]) {
-					throw new Error(
-						`${REQUIRED_FIELDS.map((field) => mapping[field].label).join(', ')} can not be zero`
-					);
-				}
+			const missingRequiredFields = model.features.filter(
+				(feature) => feature.required && !patientData[feature.name]
+			);
+			if (missingRequiredFields.length > 0) {
+				throw new Error(
+					`${missingRequiredFields.map((field) => field.label).join(', ')} can not be zero`
+				);
 			}
 
 			predictionResults = await queryModel();
@@ -69,7 +68,7 @@
 		Please enter the following information regarding the patient
 	</p>
 
-	{#each features as feature}
+	{#each model.features as feature}
 		{#if feature.type === 'boolean'}
 			<BooleanRadioGroup
 				label={feature.label ?? feature.name}
@@ -113,6 +112,6 @@
 			<ErrorMessage>{error}</ErrorMessage>
 		</div>
 	{/if}
-	
+
 	<CustomChart data={predictionResults} />
 </div>
