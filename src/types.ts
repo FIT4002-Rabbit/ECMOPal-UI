@@ -1,20 +1,17 @@
 export type ModelType = { name: string; features: MappingType[]; order: number };
 
-type CommonProperties = {
+export type MappingType = {
+	type: 'boolean' | 'slider' | 'fixed';
 	name: string;
 	label: string;
 	info: string;
 	default: number;
 	description: string;
 	required: boolean;
+	min: number;
+	max: number;
+	step: number;
 };
-
-export type MappingType = CommonProperties &
-	(
-		| { type: 'boolean' }
-		| { type: 'slider'; min: number; max: number; step: number }
-		| { type: 'fixed' }
-	);
 
 type AlteringFeatureType = MappingType & { value: number };
 
