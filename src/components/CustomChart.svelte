@@ -11,7 +11,7 @@
 	let results: { name: string; label: string; value: number; scaledValue: number }[];
 	$: results =
 		data?.altering_features
-			.map(({ name, label, value }, i) => ({
+			.map(({ name, label, value }) => ({
 				name,
 				label,
 				value: value * 100,
