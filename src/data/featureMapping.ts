@@ -47,6 +47,6 @@ const mapping: Record<string, MappingType> = {
 	'Pulmonary Embolism': { type: 'boolean', default: 0 }
 };
 
-export const REQUIRED_FIELDS = ['IntubationToTimeOnHours', 'AgeYears', 'Lactate'];
+export const REQUIRED_FIELDS = ['IntubationToTimeOnHours', 'AgeYears'];
 
 export default mapping;

@@ -21,21 +21,26 @@
 			.sort((a, b) => Math.abs(b.value) - Math.abs(a.value)) ?? [];
 </script>
 
+<style>
+	.grid-cols {
+		grid-template-columns: minmax(min-content, max-content) min-content minmax(20%, 1fr) minmax(20%, 1fr);
+	}
+</style>
+
 {#if data}
-	<div class="rounded bg-base-300 h-auto w-full md:w-2/3 m-1 p-3">
+	<div class="rounded bg-base-200 h-auto w-full md:w-2/3 m-1 p-3">
 		<h1 id="chart-title" class="text-1xl md:text-2xl text-center">Survivability</h1>
 		<h1 id="chart-probability" class="text-4xl md:text-6xl text-center mb-2">
-			{(data.out_value * 100).toFixed(2)}%
+			<b>{(data.out_value * 100).toFixed(2)}%</b>
 		</h1>
 
 		<div
-			class="grid w-full gap-y-2"
-			style="grid-template-columns: minmax(min-content, max-content) min-content minmax(20%, 1fr) minmax(20%, 1fr); grid-auto-rows: 1fr"
+			class="grid auto-rows-fr grid-cols w-full gap-y-2"
 		>
 			{#each results as { label, value, scaledValue }}
 				<div class="pe-2">{label}</div>
-				<div class="pe-2 self-center" class:text-success={value >= 0} class:text-error={value < 0}>
-					{value.toFixed(2)}%
+				<div class="pe-2 self-center text-right" class:text-success={value >= 0} class:text-error={value < 0}>
+					<b>{value.toFixed(2)}%</b>
 				</div>
 				<div>
 					{#if value < 0}

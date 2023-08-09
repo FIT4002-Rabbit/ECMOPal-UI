@@ -39,7 +39,7 @@
 </script>
 
 <div>
-	<button class="btn btn-sm bg-200" on:click={toggleTheme}>
+	<button class="btn btn-sm bg-base-100" on:click={toggleTheme}>
 		{currentTheme === THEMES.DARK ? 'Light mode' : 'Dark mode'}
 	</button>
 </div>

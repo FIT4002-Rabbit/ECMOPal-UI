@@ -4,19 +4,23 @@
 	import { onMount } from 'svelte';
 	import type { FeatureType, ModelType, PatientDataType } from '../types';
 	import Model from './Model.svelte';
+	import { page } from "$app/stores";
 
 	import helpModalText from '../data/helpModalText';
 	import featureMapping from '../data/featureMapping';
 	import ErrorMessage from './ErrorMessage.svelte';
 	import { PUBLIC_BACKEND } from '$env/static/public';
+	import { goto } from '$app/navigation';
 
 	let loading = true;
 	let error: string | undefined;
 	let models: ModelType[] = [];
-	let activeModel = 'Lite';
+	let activeModel = $page.url.hash?.slice(1) ?? 'Lite';
+	$: if (models.length > 0 && !models.find((model) => model.name === activeModel)) activeModel = models[0].name;
 
 	let model: ModelType | undefined;
 	$: model = models.find((model) => model.name === activeModel);
+	$: if (model) goto(`#${model.name}`);
 
 	let features: FeatureType[];
 	$: features =
@@ -50,15 +54,14 @@
 </script>
 
 <Layout>
-	<div class="tabs" slot="header">
+	<div class="tabs justify-center" slot="header">
 		{#each models as { name }}
 			<button
-				class="tab tab-lg tab-lifted"
+				class="tab tab-lg tab-lifted w-1/2 md:w-1/3 lg:w-1/6"
 				class:tab-active={name == activeModel}
 				on:click={() => (activeModel = name)}>{name}</button
 			>
 		{/each}
-		<div class="tab tab-lg tab-lifted flex-1 cursor-default" />
 	</div>
 	<div
 		class={`flex-1 bg-base-100 ${loading || error ? 'flex items-center justify-center' : ''}`}
@@ -71,7 +74,9 @@
 				<ErrorMessage>{error}</ErrorMessage>
 			</div>
 		{:else if model}
-			<Model {model} {features} {patientData} />
+			{#key model.name}
+				<Model {model} {features} {patientData} />
+			{/key}
 		{/if}
 	</div>
 </Layout>

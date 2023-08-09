@@ -9,12 +9,12 @@
 
 <div class="bg-base-200 flex flex-col h-100 min-h-screen">
 	<header>
-		<div class="flex flex-wrap justify-between p-3 md:p-10">
+		<div class="flex flex-wrap justify-between p-3 md:p-5">
 			<div>
-				<h1 class="text-4xl md:text-6xl"><b>ECMO</b> PAL</h1>
-				<p class="text-s">Extracorporeal membrane oxygenation survivability predictor</p>
+				<h1 class="text-6xl md:text-8xl text-accent"><b>ECMO</b> PAL</h1>
+				<p class="md:text-lg text-secondary pl-1"><b>Extracorporeal membrane oxygenation survivability predictor</b></p>
 			</div>
-			<div class="my-auto p-1">
+			<div class="p-1">
 				<ThemeToggle />
 			</div>
 		</div>
