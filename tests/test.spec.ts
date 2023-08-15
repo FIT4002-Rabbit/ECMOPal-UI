@@ -1,17 +1,54 @@
 import { test, expect, type Page } from '@playwright/test';
 
 async function get_models(page: Page) {
-	page.route('*/**/models', async route => {
-		const json = [{features:['Year', 'Arrest Ordinal', 'BMI', 'PO2', 'SBP', 'IntubationToTimeOnHours', 'AgeYears', 'Lactate'],
-		name:"Lite",
-		order:0},
-	{
-		features: ['Year', 'Chronic Lung Disease', 'Chronic Heart Failure', 'Coronary Artery Disease', 'PE ECLS Ltx', 'Vasopressors/Inotropes', 'Pre ECMo C/T Surg', 'pH', 'Bicarbonate', 'PCO2', 'HCO3', 'AKI', 'Renal Replacement Therapy', 'Arrest Ordinal', 'BMI', 'RateBreathsSec', 'FiO2', 'PO2', 'SBP', 'IntubationToTimeOnHours', 'AgeYears', 'Lactate', 'Pulmonary Embolism'],
-		name:"Full",
-		order:1
-	}];
+	page.route('*/**/models', async (route) => {
+		const json = [
+			{
+				features: [
+					'Year',
+					'Arrest Ordinal',
+					'BMI',
+					'PO2',
+					'SBP',
+					'IntubationToTimeOnHours',
+					'AgeYears',
+					'Lactate'
+				],
+				name: 'Lite',
+				order: 0
+			},
+			{
+				features: [
+					'Year',
+					'Chronic Lung Disease',
+					'Chronic Heart Failure',
+					'Coronary Artery Disease',
+					'PE ECLS Ltx',
+					'Vasopressors/Inotropes',
+					'Pre ECMo C/T Surg',
+					'pH',
+					'Bicarbonate',
+					'PCO2',
+					'HCO3',
+					'AKI',
+					'Renal Replacement Therapy',
+					'Arrest Ordinal',
+					'BMI',
+					'RateBreathsSec',
+					'FiO2',
+					'PO2',
+					'SBP',
+					'IntubationToTimeOnHours',
+					'AgeYears',
+					'Lactate',
+					'Pulmonary Embolism'
+				],
+				name: 'Full',
+				order: 1
+			}
+		];
 		await route.fulfill({ json });
-	  });
+	});
 }
 
 test('has title', async ({ page }) => {
