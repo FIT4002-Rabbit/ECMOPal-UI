@@ -24,6 +24,8 @@
 			class={css.boolean_button}
 			class:btn-primary={checked}
 			class:bg-base-100={!checked}
+			value={checked ? 1 : 0}
+			data-testid="yes"
 			on:click={() => {
 				value = 1;
 			}}>Yes</button
@@ -32,6 +34,8 @@
 			class={css.boolean_button}
 			class:btn-primary={!checked}
 			class:bg-base-100={checked}
+			value={checked ? 0 : 1}
+			data-testid="no"
 			on:click={() => {
 				value = 0;
 			}}>No</button

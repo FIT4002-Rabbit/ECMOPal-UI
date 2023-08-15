@@ -1,4 +1,18 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function get_models(page: Page) {
+	page.route('*/**/models', async route => {
+		const json = [{features:['Year', 'Arrest Ordinal', 'BMI', 'PO2', 'SBP', 'IntubationToTimeOnHours', 'AgeYears', 'Lactate'],
+		name:"Lite",
+		order:0},
+	{
+		features: ['Year', 'Chronic Lung Disease', 'Chronic Heart Failure', 'Coronary Artery Disease', 'PE ECLS Ltx', 'Vasopressors/Inotropes', 'Pre ECMo C/T Surg', 'pH', 'Bicarbonate', 'PCO2', 'HCO3', 'AKI', 'Renal Replacement Therapy', 'Arrest Ordinal', 'BMI', 'RateBreathsSec', 'FiO2', 'PO2', 'SBP', 'IntubationToTimeOnHours', 'AgeYears', 'Lactate', 'Pulmonary Embolism'],
+		name:"Full",
+		order:1
+	}];
+		await route.fulfill({ json });
+	  });
+}
 
 test('has title', async ({ page }) => {
 	await page.goto('/');
@@ -8,41 +22,55 @@ test('has title', async ({ page }) => {
 });
 
 test('Check that clicking "no" button deselects "yes" button', async ({ page }) => {
+	await get_models(page);
+
 	await page.goto('/');
 
-	const yesButton = page.getByRole('radio').nth(0);
-	const noButton = page.getByRole('radio').nth(1);
+	const responsePromise = page.waitForResponse('*/**/models');
+	await responsePromise;
 
-	await expect(yesButton).toBeChecked(); // check "yes" is checked by default
-	await expect(noButton).not.toBeChecked(); // check "no" is unchecked by default
+	const yesButton = page.getByTestId('yes');
+	const noButton = page.getByTestId('no');
 
-	await noButton.check(); // click "no" button
+	await expect(yesButton).toHaveAttribute('value', '0');
+	await expect(noButton).toHaveAttribute('value', '1');
 
-	// Check that "no" button is checked and "yes" button is unchecked
-	await expect(yesButton).not.toBeChecked();
-	await expect(noButton).toBeChecked();
-
-	await yesButton.check(); // click "yes" button
+	await yesButton.click(); // click "yes" button
 
 	// Check that "yes" button is checked and "no" button is unchecked
-	await expect(noButton).not.toBeChecked();
-	await expect(yesButton).toBeChecked();
+	await expect(yesButton).toHaveAttribute('value', '1');
+	await expect(noButton).toHaveAttribute('value', '0');
+
+	await noButton.click(); // click "no" button
+
+	// Check that "no" button is checked and "yes" button is unchecked
+	await expect(yesButton).toHaveAttribute('value', '0');
+	await expect(noButton).toHaveAttribute('value', '1');
 });
 
-test('Check "yes" button is checked by default', async ({ page }) => {
+test('Check "no" button is checked by default', async ({ page }) => {
+	await get_models(page);
+
 	await page.goto('/');
 
-	const yesButton = page.getByRole('radio').nth(0);
-	const noButton = page.getByRole('radio').nth(1);
+	const responsePromise = page.waitForResponse('*/**/models');
+	await responsePromise;
 
-	await expect(yesButton).toBeChecked(); // check "yes" is checked by default
-	await expect(noButton).not.toBeChecked(); // check "no" is unchecked by default
+	const yesButton = page.getByTestId('yes');
+	const noButton = page.getByTestId('no');
+
+	await expect(yesButton).toHaveAttribute('value', '0');
+	await expect(noButton).toHaveAttribute('value', '1');
 });
 
 test('Check slider min and max values', async ({ page }) => {
+	await get_models(page);
 	await page.goto('/');
 
-	const slider = page.getByTestId('Intubation Time (Hours) slider');
+	const responsePromise = page.waitForResponse('*/**/models');
+	await responsePromise;
+
+	const slider = page.getByTestId('Pre-ECMO Intubation Time (hours) slider');
 
 	const box = await slider.boundingBox();
 
@@ -53,7 +81,7 @@ test('Check slider min and max values', async ({ page }) => {
 		}
 	});
 
-	await expect(slider).toHaveValue('672');
+	await expect(slider).toHaveValue('500');
 
 	await slider.click({
 		position: {
@@ -62,13 +90,17 @@ test('Check slider min and max values', async ({ page }) => {
 		}
 	});
 
-	await expect(slider).toHaveValue('1');
+	await expect(slider).toHaveValue('0');
 });
 
 test('Text fields limited to numeric inputs', async ({ page }) => {
+	await get_models(page);
 	await page.goto('/');
 
-	const input_box = page.getByTestId('Intubation Time (Hours) number');
+	const responsePromise = page.waitForResponse('*/**/models');
+	await responsePromise;
+
+	const input_box = page.getByTestId('Pre-ECMO Intubation Time (hours) number');
 
 	await input_box.fill('52');
 
