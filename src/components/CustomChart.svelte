@@ -1,31 +1,24 @@
 <script lang="ts">
 	// project component imports
 	import type { PredictionResults } from '../types';
-	import mapping from '../data/featureMapping';
 
 	// project type imports
 	export let data: PredictionResults | undefined;
 
 	let maxValue: number;
-	$: maxValue = Math.max(...(data?.feature_values.map((val) => Math.abs(val)) ?? []));
+	$: maxValue = Math.max(...(data?.altering_features.map(({ value }) => Math.abs(value)) ?? []));
 
 	let results: { name: string; label: string; value: number; scaledValue: number }[];
 	$: results =
-		data?.feature_names
-			.map((name, i) => ({
+		data?.altering_features
+			.map(({ name, label, value }) => ({
 				name,
-				label: mapping[name].label ?? name,
-				value: (data?.feature_values?.[i] ?? 0) * 100,
-				scaledValue: ((data?.feature_values?.[i] ?? 0) / maxValue) * 100
+				label,
+				value: value * 100,
+				scaledValue: (value / maxValue) * 100
 			}))
 			.sort((a, b) => Math.abs(b.value) - Math.abs(a.value)) ?? [];
 </script>
-
-<style>
-	.grid-cols {
-		grid-template-columns: minmax(min-content, max-content) min-content minmax(20%, 1fr) minmax(20%, 1fr);
-	}
-</style>
 
 {#if data}
 	<div class="rounded bg-base-200 h-auto w-full md:w-2/3 m-1 p-3">
@@ -34,12 +27,14 @@
 			<b>{(data.out_value * 100).toFixed(2)}%</b>
 		</h1>
 
-		<div
-			class="grid auto-rows-fr grid-cols w-full gap-y-2"
-		>
+		<div class="grid auto-rows-fr grid-cols w-full gap-y-2">
 			{#each results as { label, value, scaledValue }}
 				<div class="pe-2">{label}</div>
-				<div class="pe-2 self-center text-right" class:text-success={value >= 0} class:text-error={value < 0}>
+				<div
+					class="pe-2 self-center text-right"
+					class:text-success={value >= 0}
+					class:text-error={value < 0}
+				>
 					<b>{value.toFixed(2)}%</b>
 				</div>
 				<div>
@@ -56,3 +51,11 @@
 		</div>
 	</div>
 {/if}
+
+<style>
+	.grid-cols {
+		grid-template-columns:
+			minmax(min-content, max-content) min-content
+			minmax(20%, 1fr) minmax(20%, 1fr);
+	}
+</style>
