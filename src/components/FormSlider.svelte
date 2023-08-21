@@ -27,8 +27,8 @@
 	};
 </script>
 
-<div class={css.input_group} class:bg-base-300={disabled}>
-	<span class={css.input_text}>
+<div class={css.input_group}>
+	<span class={css.input_text} class:opacity-20={disabled}>
 		{feature.label}
 	</span>
 	{#if feature.description}
@@ -38,7 +38,7 @@
 			</HelpModal>
 		</div>
 	{/if}
-	<div class={css.slider_group}>
+	<div class={css.slider_group} class:opacity-20={disabled}>
 		<input
 			class={css.slider_input}
 			data-testid={feature.label + ' number'}

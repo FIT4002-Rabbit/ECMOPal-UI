@@ -25,7 +25,7 @@
 </script>
 
 <div class={css.input_group}>
-	<span class={css.input_text}>
+	<span class={css.input_text} class:opacity-20={disabled}>
 		{feature.label}
 	</span>
 	{#if feature.description}
