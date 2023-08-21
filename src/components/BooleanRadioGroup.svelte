@@ -6,9 +6,8 @@
 	$: checked = value === 1;
 
 	let css = {
-		input_group:
-			'flex flex-wrap align-left flex-row justify-between rounded bg-base-200 h-fit min-h-16 p-2',
-		input_text: 'text-center my-auto basis-full md:basis-1/2',
+		input_group: 'flex align-left flex-row justify-between rounded bg-base-200 h-fit min-h-16 p-2',
+		input_text: 'my-auto basis-full md:basis-1/2',
 		boolean_button: 'btn join-item w-1/2',
 		btn_group: 'join basis-full md:basis-1/2 my-auto'
 	};
@@ -17,8 +16,8 @@
 <div class={css.input_group}>
 	<span class={css.input_text}>
 		{label}
-		<slot />
 	</span>
+	<slot />
 	<div class={css.btn_group}>
 		<button
 			class={css.boolean_button}

@@ -6,8 +6,8 @@
 	export let value = 0;
 
 	let css = {
-		input_group: 'flex flex-wrap flex-row justify-between rounded bg-base-200 min-h-16 p-2',
-		input_text: 'text-center my-auto basis-full md:basis-1/2',
+		input_group: 'flex flex-row justify-between rounded bg-base-200 min-h-16 p-2',
+		input_text: 'my-auto basis-full md:basis-1/2',
 		slider_group: 'btn-group basis-full md:basis-1/2',
 		slider_input: 'w-1/5 bg-base-100 rounded text-center',
 		slider_range: 'range range-primary w-4/5 mx-2 my-auto'
@@ -17,8 +17,8 @@
 <div class={css.input_group}>
 	<span class={css.input_text}>
 		{label}
-		<slot />
 	</span>
+	<slot />
 	<div class={css.slider_group}>
 		<input
 			class={css.slider_input}
