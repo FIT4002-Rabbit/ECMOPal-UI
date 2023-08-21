@@ -9,7 +9,7 @@
 </script>
 
 <div class="w-full">
-	<h1 class="text-2xl text-secondary">{category.name}</h1>
+	<h2 class="text-2xl text-secondary">{category.name}</h2>
 	<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
 		{#each category.features as feature}
 			{#if feature.type === 'boolean'}
