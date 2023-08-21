@@ -17,7 +17,9 @@
 	<span class={css.input_text}>
 		{label}
 	</span>
-	<slot />
+	<div class="self-center">
+		<slot />
+	</div>
 	<div class={css.btn_group}>
 		<button
 			class={css.boolean_button}

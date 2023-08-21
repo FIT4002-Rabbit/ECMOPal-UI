@@ -4,7 +4,7 @@
 	let is_open = false;
 </script>
 
-<button class="bg-info rounded-lg w-6 m-2 self-center" on:click={() => (is_open = true)}>?</button>
+<button class="bg-info rounded-lg w-6 m-2" on:click={() => (is_open = true)}>?</button>
 {#if is_open === true}
 	<!-- Black background that blocks interaction, disable warning since the mousedown handler is to click out of an interaction environment -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
