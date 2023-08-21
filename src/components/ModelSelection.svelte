@@ -60,7 +60,7 @@
 		{/each}
 	</div>
 	<div
-		class={`flex-1 bg-base-100 flex flex-col items-center ${
+		class={`flex-1 bg-base-100 flex flex-col items-center tabs-border ${
 			loading || error ? 'justify-center ' : ''
 		}`}
 		slot="content"
@@ -78,3 +78,10 @@
 		{/if}
 	</div>
 </Layout>
+
+<style>
+	.tabs-border {
+		border-top: 1px solid hsl(var(--b3));
+		margin-top: -1px;
+	}
+</style>
