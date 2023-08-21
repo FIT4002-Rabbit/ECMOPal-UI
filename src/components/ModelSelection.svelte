@@ -24,7 +24,9 @@
 
 	let patientData: PatientDataType;
 	$: patientData = Object.fromEntries(
-		model?.features?.map((feature) => [feature.name, feature.default]) ?? []
+		model?.categories
+			?.flatMap(({ features }) => features)
+			?.map((feature) => [feature.name, feature.default]) ?? []
 	);
 
 	onMount(async () => {
@@ -58,7 +60,9 @@
 		{/each}
 	</div>
 	<div
-		class={`flex-1 bg-base-100 ${loading || error ? 'flex items-center justify-center' : ''}`}
+		class={`flex-1 bg-base-100 flex flex-col items-center ${
+			loading || error ? 'justify-center ' : ''
+		}`}
 		slot="content"
 	>
 		{#if loading}
