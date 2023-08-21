@@ -4,14 +4,12 @@
 	export let patientData: PatientDataType;
 
 	// project component imports
-	import BooleanRadioGroup from '../components/BooleanRadioGroup.svelte';
-	import FormSlider from '../components/FormSlider.svelte';
 	import CustomChart from '../components/CustomChart.svelte';
 
 	// project type imports
-	import HelpModal from '../components/HelpModal.svelte';
 	import ErrorMessage from './ErrorMessage.svelte';
 	import { PUBLIC_BACKEND } from '$env/static/public';
+	import CategoryGroup from './CategoryGroup.svelte';
 
 	let predictionResults: PredictionResults | undefined;
 	let error: string | undefined;
@@ -38,9 +36,9 @@
 		loading = true;
 
 		try {
-			const missingRequiredFields = model.features.filter(
-				(feature) => feature.required && !patientData[feature.name]
-			);
+			const missingRequiredFields = model.categories
+				.flatMap(({ features }) => features)
+				.filter((feature) => feature.required && !patientData[feature.name]);
 			if (missingRequiredFields.length > 0) {
 				throw new Error(
 					`${missingRequiredFields.map((field) => field.label).join(', ')} can not be zero`
@@ -63,52 +61,19 @@
 	}
 </script>
 
-<div class="mx-auto my-5 flex flex-wrap flex-row justify-center">
-	<p class="w-full md:w-2/3 text-center">
-		Please enter the following information regarding the patient
-	</p>
-
-	{#each model.features as feature}
-		{#if feature.type === 'boolean'}
-			<BooleanRadioGroup
-				label={feature.label ?? feature.name}
-				bind:value={patientData[feature.name]}
-			>
-				{#if feature.description}
-					<HelpModal>
-						{feature.description}
-					</HelpModal>
-				{/if}
-			</BooleanRadioGroup>
-		{:else if feature.type === 'slider'}
-			<FormSlider
-				label={feature.label ?? feature.name}
-				bind:value={patientData[feature.name]}
-				min={feature.min}
-				max={feature.max}
-				step={feature.step}
-			>
-				{#if feature.description}
-					<HelpModal>
-						{feature.description}
-					</HelpModal>
-				{/if}
-			</FormSlider>
-		{/if}
+<div class="my-5 md:w-2/3 flex flex-col gap-2 justify-start items-center">
+	{#each model.categories as category}
+		<CategoryGroup {category} {patientData} />
 	{/each}
-
-	<!-- Break for forcing submit button to its own row -->
-	<div class="basis-full h-0" />
 
 	{#if loading}
 		<span class="loading loading-infinity loading-lg" />
 	{:else}
-		<button class="btn btn-primary w-32 m-1" on:click={handleSubmit}>Submit</button>
+		<button class="btn btn-primary w-32" on:click={handleSubmit}>Submit</button>
 	{/if}
 
-	<div class="basis-full h-0" />
 	{#if error}
-		<div class="h-auto w-full md:w-2/3 m-1">
+		<div class="h-auto">
 			<ErrorMessage>{error}</ErrorMessage>
 		</div>
 	{/if}

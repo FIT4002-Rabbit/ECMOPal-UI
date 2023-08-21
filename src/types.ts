@@ -1,4 +1,9 @@
-export type ModelType = { name: string; features: MappingType[]; order: number };
+export type ModelType = { name: string; categories: CategoryType[]; order: number };
+
+export type CategoryType = {
+	name: string;
+	features: MappingType[];
+};
 
 export type MappingType = {
 	type: 'boolean' | 'slider' | 'fixed';
