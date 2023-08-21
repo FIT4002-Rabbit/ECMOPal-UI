@@ -19,7 +19,7 @@
 	const css = {
 		input_group: 'flex align-left flex-row justify-between rounded bg-base-200 h-fit min-h-16 p-2',
 		input_text: 'my-auto basis-full md:basis-1/2',
-		boolean_button: 'btn join-item w-1/2',
+		boolean_button: 'btn join-item w-1/2 disabled:bg-base-100',
 		btn_group: 'join basis-full md:basis-1/2 my-auto'
 	};
 </script>
