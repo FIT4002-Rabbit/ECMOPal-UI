@@ -45,7 +45,7 @@
 			</select>
 
 			<div class="rounded bg-base-100 p-2 absolute top-0 right-0">
-				<p class="m-1">Show {filter_amount} elements: </p>
+				<p class="m-1">Show top {filter_amount} rows: </p>
 				<input type="range" class="range range-sm range-primary p-2 m-1" bind:value={filter_amount} min={0} max={results.length} />
 			</div>
 		</div>
