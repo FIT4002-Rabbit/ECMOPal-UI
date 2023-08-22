@@ -37,6 +37,7 @@
 				throw new Error(json.error);
 			}
 			models = json;
+			console.log(models);
 		} catch (err) {
 			if (err instanceof Error) {
 				error = err.message;
