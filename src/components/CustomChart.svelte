@@ -29,7 +29,7 @@
 
 	let filter_amount = -1;
 	$: if (filter_amount == -1 && results.length > 0) {
-		filter_amount = Math.min(results.filter(result => result.value != 0).length, results.length / 2);
+		filter_amount = Math.min(results.filter(result => result.value != 0).length, Math.floor(results.length / 2));
 	}
 </script>
 
