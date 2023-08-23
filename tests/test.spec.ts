@@ -545,3 +545,164 @@ test('Text fields limited to numeric inputs', async ({ page }) => {
 
 	await expect(input_box).toHaveAttribute('type', 'number');
 });
+
+test('Info buttons trigger popup', async ({ page }) => {
+	await get_models(page);
+	await page.goto('/');
+
+	const responsePromise = page.waitForResponse('*/**/models');
+	await responsePromise;
+
+	const input_box = page.getByTestId('info-button').nth(0);
+	const info_popup = page.getByTestId('info-popup');
+	const exit_button = page.getByTestId('info-exit-button');
+
+	await expect(info_popup).not.toBeAttached();
+	await input_box.click();
+	await expect(info_popup).toBeAttached();
+	await expect(info_popup).toBeEnabled();
+
+	await exit_button.click();
+	await expect(info_popup).not.toBeAttached();
+});
+
+test('Test submit button', async ({ page }) => {
+	await get_models(page);
+	await page.goto('/');
+
+	const responsePromise = page.waitForResponse('*/**/models');
+	await responsePromise;
+
+	const chart = page.getByTestId('chart');
+	await expect(chart).not.toBeAttached();
+
+	const submit = page.getByTestId('submit');
+	const input_box = page.getByTestId('Pre-ECMO Intubation Time (hours) number');
+	await input_box.fill('1');
+
+	// Mock api response
+	await page.route('*/**/evaluate', async (route) => {
+		const json = {
+			altering_features: [
+				{
+					category: 'Clinical History',
+					default: 1,
+					description: '',
+					label: 'ECMO Year',
+					max: 0,
+					min: 0,
+					name: 'Year',
+					required: false,
+					step: 0,
+					type: 'fixed',
+					value: 0.0019097135588662384
+				},
+				{
+					category: 'Clinical History',
+					default: 0,
+					description:
+						"Cardiac arrest is defined as any event(s) that require the use of cardiopulmonary resuscitation (CPR) with the administration of external cardiac massage.\n\nSelect 'Yes' or 'No depending on if the patient experienced a cardiac arrest within 24 hours prior to commencement of the ECLS support.\nSelect 'Yes', if the patient received ECPR.\nIf this information is unknown or unavailable, keep the default value of 'No'.\n\nNote: Pre-ECMO cardiac arrest is greatly predictive in this model, as such it is highly advisableto enter in a value if available.",
+					label: 'Pre-ECMO Arrest and ECPR',
+					max: 0,
+					min: 0,
+					name: 'Arrest Ordinal',
+					required: false,
+					step: 0,
+					type: 'boolean',
+					value: 0.0001993661748566633
+				},
+				{
+					category: 'Clinical History',
+					default: 28,
+					description:
+						'Body Mass Index (BMI) = persons body weight in kilograms divided by the square of height inmeters.\nFor pounds and inches, the BMI can be calculated by dividing weight in pounds by the square of height in inches (in) and multiplying by a conversion factor of 703.',
+					label: 'BMI (kg/cm2)',
+					max: 85,
+					min: 10,
+					name: 'BMI',
+					required: false,
+					step: 1,
+					type: 'slider',
+					value: -0.02663735626933396
+				},
+				{
+					category: 'Hemodynamics',
+					default: 150,
+					description:
+						'The partial pressure of oxygen (PaO2) is based on an arterial blood gas drawn prior to, and no more than 6 hours before, the ECLS start time.\nIf multiple arterial blood gases exist in this time period, choose the pre-ECLS blood gas closest to AND before the ECLS start time.\n\nIf this information is unknown or unavailable, keep the default value of 150 mmHg.\n\nA PaO2 between10 mmHg and 600 mmHg can be entered.',
+					label: 'PaO₂ (mmHg)',
+					max: 600,
+					min: 10,
+					name: 'PO2',
+					required: false,
+					step: 1,
+					type: 'slider',
+					value: 0.034662809842981895
+				},
+				{
+					category: 'Hemodynamics',
+					default: 77,
+					description:
+						'Enter the systolic value of a single measurement of blood pressure taken no more than than 6 hours before the ECLS start time.\nIf an arterial blood pressure and non-invasive cuff pressure exist, please choose the arterial pressure monitor reading.\n\nIn the setting of cardiac arrest where no recordable blood pressure was obtained via invasive or non-invasive means and the patient was pulseless, please select 0mmHg.\nIf this information is unknown or unavailable, keep the default value of 77 mmHg.\n\nA systolic pressure between 0 mmHg and 300 mmHg can be entered.',
+					label: 'Systolic Blood Pressure (mmHg)',
+					max: 280,
+					min: 0,
+					name: 'SBP',
+					required: false,
+					step: 1,
+					type: 'slider',
+					value: 0.25134954403689114
+				},
+				{
+					category: 'Clinical History',
+					default: 0,
+					description:
+						"Number of hours prior to commencement of ECLS where the patient had a newly placed artificial airway.\nIntubation refers to placement of an artificial airway, whether it is an oral endotracheal, nasotracheal or tracheostomy tube.\n\nIf a patient was intubated immediately prior to ECLS commencement, select '0' hours.\nIf a patient was intubated for more than 672 hours prior to ECLS (three months), select '672'.\n\nThis value is required. Hours between 1 and 672 may be entered here.",
+					label: 'Pre-ECMO Intubation Time (hours)',
+					max: 500,
+					min: 0,
+					name: 'IntubationToTimeOnHours',
+					required: true,
+					step: 1,
+					type: 'slider',
+					value: 0.0009260372010233553
+				},
+				{
+					category: 'Clinical History',
+					default: 18,
+					description:
+						"The patient's age at the time that ECLS was established.\n\nIf patient is older than 81 years, select '81' years.\n\nAges between 18 and 81 years may be entered here.",
+					label: 'Age (years)',
+					max: 81,
+					min: 18,
+					name: 'AgeYears',
+					required: true,
+					step: 1,
+					type: 'slider',
+					value: -0.010953012231089743
+				},
+				{
+					category: 'Biochemistry',
+					default: 7.2,
+					description:
+						'Highest serum lactate concentration drawn in the 6 hours preceding ECLS.\nBoth arterial or venous lactate are acceptable.\n\nIf this information is unknown or unavailable, keep the default value of 7.2 mmol/L.\n\nNote: Blood Lactate is greatly predictive in this model, as such it is highly advisable to enter in a value if available.',
+					label: 'Lactate (mmol/L)',
+					max: 40,
+					min: 0,
+					name: 'Lactate',
+					required: false,
+					step: 1,
+					type: 'slider',
+					value: -0.13569356884118067
+				}
+			],
+			base_value: 0.5842355605363845,
+			out_value: 0.6999990940093994
+		};
+		await route.fulfill({ json });
+	});
+
+	await submit.click();
+	await expect(chart).toBeAttached();
+	await expect(chart).toBeEnabled();
+});
