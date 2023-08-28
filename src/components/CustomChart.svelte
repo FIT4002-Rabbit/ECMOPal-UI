@@ -21,7 +21,7 @@
 </script>
 
 {#if data}
-	<div class="rounded bg-base-200 h-auto w-full p-3">
+	<div class="rounded bg-base-200 h-auto w-full p-3" data-testid="chart">
 		<h1 id="chart-title" class="text-1xl md:text-2xl text-center">Survivability</h1>
 		<h1 id="chart-probability" class="text-4xl md:text-6xl text-center mb-2">
 			<b>{(data.out_value * 100).toFixed(2)}%</b>
