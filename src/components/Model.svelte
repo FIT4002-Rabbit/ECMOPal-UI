@@ -69,7 +69,7 @@
 	{#if loading}
 		<span class="loading loading-infinity loading-lg" />
 	{:else}
-		<button class="btn btn-primary w-32" on:click={handleSubmit}>Submit</button>
+		<button data-testid="submit" class="btn btn-primary w-32" on:click={handleSubmit}>Submit</button>
 	{/if}
 
 	{#if error}
