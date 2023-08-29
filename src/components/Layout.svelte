@@ -1,7 +1,13 @@
 <script lang="ts">
 	import '../app.css';
 	import ThemeToggle from './ThemeToggle.svelte';
+	import {isOverlayOpen} from "../stores/OverlayStore";
+	import OverlayWarning from "./OverlayWarning.svelte";
 </script>
+
+<div>
+	<b>Beta version only, not approved for clinical use. </b>
+</div>
 
 <svelte:head>
 	<title>ECMO PAL Lite</title>
@@ -9,6 +15,11 @@
 
 <div class="bg-base-200 flex flex-col h-100 min-h-screen">
 	<header>
+		{#if $isOverlayOpen}
+			<OverlayWarning>
+				<p>This is open</p>
+			</OverlayWarning>
+		{/if}
 		<div class="flex flex-wrap justify-between p-3 md:p-5">
 			<div>
 				<h1 class="text-6xl md:text-8xl text-accent"><b>ECMO</b> PAL</h1>
