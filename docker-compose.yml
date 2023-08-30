@@ -4,6 +4,7 @@ services:
   web:
     build:
       context: .
+      ssh: ${SSH_AUTH_SOCK}
       dockerfile: Dockerfile
     ports:
       - 80:3000
