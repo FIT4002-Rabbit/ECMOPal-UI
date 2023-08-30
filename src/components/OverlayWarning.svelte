@@ -1,7 +1,7 @@
 <script>
     import {isOverlayOpen} from "../stores/OverlayStore.js";
 </script>
-<div class="w-screen h-screen fixed top-0 left-0 justify-centre items-centre">
+<div class="w-screen h-screen fixed z-10 top-0 left-0 justify-centre items-centre">
     <div class = "bg-gray-900 text-white rounded-md px-8 py-10 relative mw-large opacity-95">
         <button class = "absolute bottom-2 left-3 text-base text-orange-400" on:click={() => isOverlayOpen.set(false)}>
             Accept
