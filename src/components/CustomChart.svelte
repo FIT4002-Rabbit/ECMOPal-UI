@@ -34,7 +34,7 @@
 </script>
 
 {#if data}
-	<div class="rounded bg-base-200 h-auto w-full p-3">
+	<div class="rounded bg-base-200 h-auto w-full p-3" data-testid="chart">
 		<div class="relative w-full h-20 lg:h-0">
 			<select class="select select-sm top-0 left-0" bind:value={selected_sort_method}>
 				{#each sort_methods as method}
