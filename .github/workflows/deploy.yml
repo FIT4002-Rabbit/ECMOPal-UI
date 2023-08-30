@@ -9,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: eval `ssh-agent -s`
-      - run: echo $SSH_AUTH_SOCK
-      - run: echo "${{ secrets.SSH_KEY  }}" >> key.key
-      - run: sudo chmod 600 key.key
-      - run: ssh-add -k key.key
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
       - run: docker context create remote --docker "host=ssh://opc@168.138.8.111"
       - run: docker-compose --context remote up --build -d --force-recreate  
     
