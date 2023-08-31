@@ -25,5 +25,3 @@ jobs:
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_KEY }}"
           docker-compose --context remote up --build -d --force-recreate
-
-    
