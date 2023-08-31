@@ -2,7 +2,7 @@ name: Server Deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'dockerise']
 
 jobs:
   deploy:
@@ -23,5 +23,5 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_KEY }}"
+          docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}"
           docker-compose --context remote up --build -d --force-recreate
