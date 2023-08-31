@@ -2,7 +2,7 @@ name: Server Deploy
 
 on:
   push:
-    branches: ['main', 'dockerise']
+    branches: ['main']
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           mkdir -p /home/runner/.ssh
-          ssh-keyscan 168.138.8.111 >> /home/runner/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> /home/runner/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/github_actions
           chmod 600 /home/runner/.ssh/github_actions
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
@@ -23,7 +23,7 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          docker context create remote --docker "host=ssh://opc@168.138.8.111"
+          docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_KEY }}"
           docker-compose --context remote up --build -d --force-recreate
 
     
