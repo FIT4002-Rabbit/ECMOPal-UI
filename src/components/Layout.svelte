@@ -16,7 +16,7 @@
 <div class="bg-base-200 flex flex-col h-100 min-h-screen">
 	<header>
 		{#if $isOverlayOpen}
-			<OverlayWarning></OverlayWarning>
+			<OverlayWarning/>
 		{/if}
 		<div class="flex flex-wrap justify-between p-3 md:p-5">
 			<div>
