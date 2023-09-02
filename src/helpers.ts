@@ -16,7 +16,7 @@ const handleDisabled = (
 	}
 
 	if (disabled) {
-		setValue(feature.min);
+		setValue(feature.default);
 	}
 
 	return disabled;
