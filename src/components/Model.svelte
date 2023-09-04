@@ -36,14 +36,15 @@
 		loading = true;
 
 		try {
-			const missingRequiredFields = model.categories
-				.flatMap(({ features }) => features)
-				.filter((feature) => feature.required && !patientData[feature.name]);
-			if (missingRequiredFields.length > 0) {
-				throw new Error(
-					`${missingRequiredFields.map((field) => field.label).join(', ')} can not be zero`
-				);
-			}
+			// TODO: Change how required fields are handled
+			// const missingRequiredFields = model.categories
+			// 	.flatMap(({ features }) => features)
+			// 	.filter((feature) => feature.required && !patientData[feature.name]);
+			// if (missingRequiredFields.length > 0) {
+			// 	throw new Error(
+			// 		`${missingRequiredFields.map((field) => field.label).join(', ')} can not be zero`
+			// 	);
+			// }
 
 			predictionResults = await queryModel();
 			document.querySelector('#chart')?.scrollIntoView({
@@ -63,7 +64,7 @@
 
 <div class="my-5 md:w-2/3 flex flex-col gap-2 justify-start items-center">
 	{#each model.categories as category}
-		<CategoryGroup {category} {patientData} />
+		<CategoryGroup {category} bind:patientData />
 	{/each}
 
 	{#if loading}
