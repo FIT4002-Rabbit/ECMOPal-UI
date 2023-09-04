@@ -23,6 +23,7 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
+          sudo netstat -pna | grep 80
           docker-compose down
           docker container prune -f
           docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}"
