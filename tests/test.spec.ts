@@ -566,7 +566,7 @@ test('Info buttons trigger popup', async ({ page }) => {
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
-	
+
 	const OverlayButton = page.getByTestId('overlay');
 	await OverlayButton.click();
 
@@ -590,6 +590,9 @@ test('Test submit button', async ({ page }) => {
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
+
+	const OverlayButton = page.getByTestId('overlay');
+	await OverlayButton.click();
 
 	const chart = page.getByTestId('chart');
 	await expect(chart).not.toBeAttached();
