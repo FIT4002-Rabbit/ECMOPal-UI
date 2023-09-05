@@ -1,8 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 
 async function get_models(page: Page) {
-	const OverlayButton = page.getByTestId("OverlayButton");
-	await OverlayButton.click();
 	page.route('*/**/models', async (route) => {
 		const json = [
 			{
@@ -51,6 +49,8 @@ async function get_models(page: Page) {
 		];
 		await route.fulfill({ json });
 	});
+	const OverlayButton = page.getByTestId("OverlayButton");
+	await OverlayButton.click();
 }
 
 test('has title', async ({ page }) => {
