@@ -448,8 +448,6 @@ async function get_models(page: Page) {
 			}
 		];
 		await route.fulfill({ json });
-		const OverlayButton = page.getByTestId('overlay');
-		await OverlayButton.click();
 	});
 }
 
@@ -467,6 +465,9 @@ test('Check that clicking "no" button deselects "yes" button', async ({ page }) 
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
+
+	const OverlayButton = page.getByTestId('overlay');
+	await OverlayButton.click();
 
 	const yesButton = page.getByTestId('yes');
 	const noButton = page.getByTestId('no');
@@ -495,6 +496,9 @@ test('Check "no" button is checked by default', async ({ page }) => {
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
 
+	const OverlayButton = page.getByTestId('overlay');
+	await OverlayButton.click();
+
 	const yesButton = page.getByTestId('yes');
 	const noButton = page.getByTestId('no');
 
@@ -509,6 +513,9 @@ test('Check slider min and max values', async ({ page }) => {
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
+
+	const OverlayButton = page.getByTestId('overlay');
+	await OverlayButton.click();
 
 	const slider = page.getByTestId('Pre-ECMO Intubation Time (hours) slider');
 
@@ -540,6 +547,8 @@ test('Text fields limited to numeric inputs', async ({ page }) => {
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
+	const OverlayButton = page.getByTestId('overlay');
+	await OverlayButton.click();
 
 	const input_box = page.getByTestId('Pre-ECMO Intubation Time (hours) number');
 
@@ -557,6 +566,9 @@ test('Info buttons trigger popup', async ({ page }) => {
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
+	
+	const OverlayButton = page.getByTestId('overlay');
+	await OverlayButton.click();
 
 	const input_box = page.getByTestId('info-button').nth(0);
 	const info_popup = page.getByTestId('info-popup');
