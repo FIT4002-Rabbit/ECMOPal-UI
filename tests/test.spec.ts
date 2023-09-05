@@ -1,6 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 
 async function get_models(page: Page) {
+	const OverlayButton = page.getByTestId("overlay");
+	await OverlayButton.click();
 	page.route('*/**/models', async (route) => {
 		const json = [
 			{
@@ -60,8 +62,6 @@ test('has title', async ({ page }) => {
 
 test('Check that clicking "no" button deselects "yes" button', async ({ page }) => {
 	await get_models(page);
-	const OverlayButton = page.getByTestId("OverlayButton");
-	await OverlayButton.click();
 
 	await page.goto('/');
 
@@ -89,8 +89,6 @@ test('Check that clicking "no" button deselects "yes" button', async ({ page }) 
 
 test('Check "no" button is checked by default', async ({ page }) => {
 	await get_models(page);
-	const OverlayButton = page.getByTestId("OverlayButton");
-	await OverlayButton.click();
 
 	await page.goto('/');
 
@@ -107,8 +105,6 @@ test('Check "no" button is checked by default', async ({ page }) => {
 test('Check slider min and max values', async ({ page }) => {
 	await get_models(page);
 	await page.goto('/');
-	const OverlayButton = page.getByTestId("OverlayButton");
-	await OverlayButton.click();
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
@@ -139,8 +135,6 @@ test('Check slider min and max values', async ({ page }) => {
 test('Text fields limited to numeric inputs', async ({ page }) => {
 	await get_models(page);
 	await page.goto('/');
-	const OverlayButton = page.getByTestId("OverlayButton");
-	await OverlayButton.click();
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
