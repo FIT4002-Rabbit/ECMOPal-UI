@@ -3,7 +3,7 @@
 </script>
 <div class="overflow-auto hover:overflow-y-scroll h-screen fixed z-10 top-0 left-0 justify-centre items-centre">
     <div class = "bg-gray-900 text-white rounded-md px-8 py-10 relative mw-large opacity-95">
-        <button class="absolute bottom-2 right-3 bg-yellow-500 text-white font-bold py-2 px-4 rounded-full" on:click={() => isOverlayOpen.set(false)}>
+        <button class="absolute bottom-2 right-3 bg-yellow-500 text-white font-bold py-2 px-4 rounded-full" data-testid="overlay" on:click={() => isOverlayOpen.set(false)}>
             Accept
         </button>
         <b>What is ECMO PAL?</b><br>
