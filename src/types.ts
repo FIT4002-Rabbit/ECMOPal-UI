@@ -16,6 +16,8 @@ export type MappingType = {
 	min: number;
 	max: number;
 	step: number;
+	visible: boolean;
+	'depends on': string;
 };
 
 type AlteringFeatureType = MappingType & { value: number };

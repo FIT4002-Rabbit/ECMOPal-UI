@@ -37,6 +37,7 @@
 				throw new Error(json.error);
 			}
 			models = json;
+			console.log(models);
 		} catch (err) {
 			if (err instanceof Error) {
 				error = err.message;
@@ -60,7 +61,7 @@
 		{/each}
 	</div>
 	<div
-		class={`flex-1 bg-base-100 flex flex-col items-center ${
+		class={`flex-1 bg-base-100 flex flex-col items-center tabs-border -mt-px border-t border-base-300 ${
 			loading || error ? 'justify-center ' : ''
 		}`}
 		slot="content"
