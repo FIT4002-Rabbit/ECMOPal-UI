@@ -1,8 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 
 async function get_models(page: Page) {
-	const OverlayButton = page.getByTestId('overlay');
-	await OverlayButton.click();
 	page.route('*/**/models', async (route) => {
 		const json = [
 			{
@@ -450,6 +448,8 @@ async function get_models(page: Page) {
 			}
 		];
 		await route.fulfill({ json });
+		const OverlayButton = page.getByTestId('overlay');
+		await OverlayButton.click();
 	});
 }
 
@@ -461,9 +461,9 @@ test('has title', async ({ page }) => {
 });
 
 test('Check that clicking "no" button deselects "yes" button', async ({ page }) => {
-	await get_models(page);
-
 	await page.goto('/');
+
+	await get_models(page);
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
@@ -488,9 +488,9 @@ test('Check that clicking "no" button deselects "yes" button', async ({ page }) 
 });
 
 test('Check "no" button is checked by default', async ({ page }) => {
-	await get_models(page);
-
 	await page.goto('/');
+
+	await get_models(page);
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
@@ -503,8 +503,9 @@ test('Check "no" button is checked by default', async ({ page }) => {
 });
 
 test('Check slider min and max values', async ({ page }) => {
-	await get_models(page);
 	await page.goto('/');
+
+	await get_models(page);
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
@@ -533,8 +534,9 @@ test('Check slider min and max values', async ({ page }) => {
 });
 
 test('Text fields limited to numeric inputs', async ({ page }) => {
-	await get_models(page);
 	await page.goto('/');
+
+	await get_models(page);
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
@@ -549,8 +551,9 @@ test('Text fields limited to numeric inputs', async ({ page }) => {
 });
 
 test('Info buttons trigger popup', async ({ page }) => {
-	await get_models(page);
 	await page.goto('/');
+
+	await get_models(page);
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
@@ -569,8 +572,9 @@ test('Info buttons trigger popup', async ({ page }) => {
 });
 
 test('Test submit button', async ({ page }) => {
-	await get_models(page);
 	await page.goto('/');
+
+	await get_models(page);
 
 	const responsePromise = page.waitForResponse('*/**/models');
 	await responsePromise;
