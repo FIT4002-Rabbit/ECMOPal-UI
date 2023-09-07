@@ -1,0 +1,32 @@
+name: Delete old artifacts manually
+# Run action manually
+on: [workflow_dispatch]
+
+jobs:
+  delete:
+    name: Delete Old Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        id: artifact
+        with:
+          # Delete all artifacts
+          script: |
+            const res = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            const { artifacts } = res.data;
+
+            for (const artifact of artifacts) {
+              const { id } = artifact;
+              console.log(`Deleting artifact [${id}]...`);
+
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: id
+              });
+            }
+
+            console.log(`${artifacts.length} artifacts have been deleted.`);
